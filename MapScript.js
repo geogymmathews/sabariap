@@ -10,13 +10,25 @@
 
 	function openMainMenu(event) 
 	{
+		btnClickPlacesMenuInProgress = true;
+		if (event != null)
 		event.preventDefault();
-		hideContextMenu();
 		const contextMainMenu = document.getElementById(ctxMainMenuID);
-		contextMainMenu.style.left = `${event.pageX}px`;
-		contextMainMenu.style.top = `${event.pageY}px`;
+		if (event != null)
+		{
+			contextMainMenu.style.left = `${event.pageX}px`;
+			contextMainMenu.style.top = `${event.pageY}px`;
+			contextMainMenu.style.position = 'absolute';
+		}
+		else
+		{
+			contextMainMenu.style.left = `30px`;
+			contextMainMenu.style.top = `30px`;
+			contextMainMenu.style.position = 'fixed';
+		}
 		contextMainMenu.style.display = 'block';
 	}
+
 
 	function openPlacesMenu(event) 
 	{
@@ -105,6 +117,7 @@
 
 	function hideContextMenu()
 	{
+		console.log("hideContextMenu");
 		if (btnClickSettingsInProgress==true)
 		{
 			return;

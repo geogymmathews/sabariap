@@ -9,13 +9,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 </head>
 
 
 <body  oncontextmenu="openMainMenu(event)" ondblclick="showPrompt()" onclick="hideContextMenu()" >
 <div style="left:4800px; top:600px;" class="overlay-Header"><nobr>Sabari Airport: Manimala- Suvey Numbers in 5k Radius </nobr></div>
-<button onclick="openMainMenu(event)"></button>
+
+<button onclick="openMainMenu(null)" class="floating-button"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
+
 
 <div>
   <table cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
@@ -180,7 +183,7 @@
  <td>
     
 	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" checked id="toggle5KDoc" onchange="displayDocumentsBasedOnSettings()">
+        <input type="checkbox" class="toggle-checkbox" id="toggle5KDoc" onchange="displayDocumentsBasedOnSettings()">
         <div class="toggle-track">
             <div class="toggle-handle"></div>
         </div>
@@ -343,6 +346,7 @@
   </div>
 
 <!-- Menu for Selected places-->
+<div id="Kanjirappally_2024_1339" style="left: 4388px; top: 212px;" class="iconYetTo" onclick="openMainMenu(event)" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
 <div id="Changanacherry_2022_1977" style="left: 1892px; top: 4550px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
 <div id="Erumeli_2020_1145" style="left: 809px; top: 3995px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
 <div id="Erumeli_2020_1161" style="left: 2135px; top: 2702px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">24K</div>
@@ -677,7 +681,6 @@
 <div id="Kanjirappally_2023_33" style="left: 4279px; top: 2218px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">78K</div>
 <div id="Kanjirappally_2023_451" style="left: 2463px; top: 1775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
 <div id="Kanjirappally_2023_730" style="left: 3050px; top: 1406px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
-<div id="Kanjirappally_2024_1339" style="left: 4388px; top: 212px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
 <div id="Kanjirappally_2024_1638" style="left: 3907px; top: 4913px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
 <div id="Kanjirappally_2024_548" style="left: 3390px; top: 5211px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
 <div id="Kanjirappally_2024_590" style="left: 3687px; top: 2152px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
