@@ -1,9 +1,11 @@
 	const ctxMainMenuID = 'idContextMainMenu';
 	const ctxPlaceMenuID = 'idContextMenuPlaces';
 	const ctxSettingsID = 'idSettings';
+	const clickMenuID = 'idClickMenu';
 
 	var btnClickPlacesMenuInProgress = false;
 	var btnClickSettingsInProgress = false;
+	var clickMenuInProgress = false;
     var mouseOverEnabled = false;
 	var traverseIndex = 1;
 
@@ -28,7 +30,18 @@
 		}
 		contextMainMenu.style.display = 'block';
 	}
+	function showClickMenu( event)
+	{
+		
+		clickMenuInProgress = true;
+		event.preventDefault();
+		const clickMenu = document.getElementById(clickMenuID);
+		clickMenu.style.left = `${event.pageX}px`;
+		clickMenu.style.top = `${event.pageY}px`;
+		clickMenu.style.position = 'absolute';
+		clickMenu.style.display = 'block';
 
+	}
 
 	function openPlacesMenu(event) 
 	{
@@ -112,14 +125,26 @@
 			  console.log(msg);
 			  }
 		}
+		const clickMenu = document.getElementById(clickMenuID);
+		clickMenu.style.display = 'none';
+		clickMenuInProgress = false;
 
 	}
 
 	function hideContextMenu()
 	{
-		console.log("hideContextMenu");
 		if (btnClickSettingsInProgress==true)
 		{
+			return;
+		}
+		if (clickMenuInProgress==true)
+		{
+			const clickMenu = document.getElementById(clickMenuID);
+			if (clickMenu.style.display == 'block')
+			{
+				clickMenu.style.display = 'none';
+				clickMenuInProgress = false;
+			}
 			return;
 		}
 
@@ -142,7 +167,11 @@
 				  contextSettingsID.style.display = 'none';
 			}
 			
-		}		
+		}
+		const clickMenu = document.getElementById(clickMenuID);
+		clickMenu.style.display = 'none';
+		clickMenuInProgress = false;
+
 		//While the main Menu is clicked , it closed Places Context Menu
 		btnClickPlacesMenuInProgress = false;
 		
@@ -290,13 +319,44 @@ return longitude;
 
 function toggleBackgroundImage()
 {
-      const img = document.getElementById('mapImage');
-      if (img.src.includes('Bhuvan_Map.png')) {
-        img.src = 'Images/Google_Map.png';
-      } else {
-        img.src = 'Images/Bhuvan_Map.png';
-      }
+    // Get the current file name
+    const fileName = window.location.pathname.split("/").pop();
 
+
+    // Show or hide divs based on the file name
+    if (fileName === "index.html") 
+	{
+	  if (document.getElementById("Bhuvan_FullImage").className == "hidden" )
+	  {
+		  document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
+		  document.getElementById("Google_FullImage").classList.add("hidden");
+	  }
+	  else
+	  {
+		  document.getElementById("Bhuvan_FullImage").classList.add("hidden");
+		  document.getElementById("Google_FullImage").classList.remove("hidden");
+		
+	  }
+		  document.getElementById("Google_SplitImages").classList.add("hidden");
+		  document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
+
+    } 
+	else if (fileName === "index2.html") 
+	{
+	  if (document.getElementById("Bhuvan_SplitImages").className == "hidden" )
+	  {
+		  document.getElementById("Bhuvan_SplitImages").classList.remove("hidden");
+		  document.getElementById("Google_SplitImages").classList.add("hidden");
+	  }
+	  else
+	  {
+		  document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
+		  document.getElementById("Google_SplitImages").classList.remove("hidden");
+		
+	  }
+		  document.getElementById("Google_FullImage").classList.add("hidden");
+		  document.getElementById("Bhuvan_FullImage").classList.add("hidden");
+	}
 }
 
 function openGoogleMap(event)
@@ -313,6 +373,10 @@ function openGoogleMap(event)
 
 			  // Open Google Maps in a new tab
 			  window.open(mapsUrl, "_blank");
+		const clickMenu = document.getElementById(clickMenuID);
+		clickMenu.style.display = 'none';
+		clickMenuInProgress = false;
+
 }
 
 
@@ -420,11 +484,15 @@ function openTraversePopup()
 
     // Show or hide divs based on the file name
     if (fileName === "index.html") {
-      document.getElementById("FullImage").classList.remove("hidden");
-      document.getElementById("SplitImages").classList.add("hidden");
+      document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
+      document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
+      document.getElementById("Google_FullImage").classList.add("hidden");
+      document.getElementById("Google_SplitImages").classList.add("hidden");
     } else if (fileName === "index2.html") {
-      document.getElementById("SplitImages").classList.remove("hidden");
-      document.getElementById("FullImage").classList.add("hidden");
+      document.getElementById("Bhuvan_SplitImages").classList.remove("hidden");
+      document.getElementById("Bhuvan_FullImage").classList.add("hidden");
+      document.getElementById("Google_FullImage").classList.add("hidden");
+      document.getElementById("Google_SplitImages").classList.add("hidden");
     }
    }
 

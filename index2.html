@@ -14,42 +14,76 @@
 </head>
 
 
-<body  oncontextmenu="openMainMenu(event)" ondblclick="showPrompt()" onclick="hideContextMenu()" >
+<body  oncontextmenu="openMainMenu(event)" ondblclick="showClickMenu(event)" onclick="hideContextMenu()" >
 <div style="left:4800px; top:600px;" class="overlay-Header"><nobr>Sabari Airport: Manimala- Suvey Numbers in 5k Radius </nobr></div>
 
 <button onclick="openMainMenu(null)" class="floating-button"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
 
 
 
-<div id="FullImage" class="hidden">
+<div id="Bhuvan_FullImage" class="hidden">
+<img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" >
+</div>
+
+<div id="Google_FullImage" class="hidden">
 <img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" >
 </div>
 
 
-
-
-<div id="SplitImages" class="hidden">
-  <table cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+<div id="Bhuvan_SplitImages" class="hidden">
+  <table cellspacing="0" cellpadding="0"  style="border-spacing: 0; border-collapse: collapse;">
     <tr cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
-      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+      <td style="padding: 0;">
         <img id="mapImageLeft" src="Images/Bhuvan_Map_1.png" width="5991" height="12000" >
       </td>
-      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+      <td style="padding: 0;">
         <img id="mapImageRight" src="Images/Bhuvan_Map_2.png" width="6009" height="12000" >
       </td>
     </tr>
   </table>
 </div>
 
+<div id="Google_SplitImages">
+  <table cellspacing="0" cellpadding="0" style="border-spacing: 0; border-collapse: collapse; padding: 0;">
+    <tr>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R1-C1.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R1-C2.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R1-C3.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R1-C4.png" width="3000" height="3000"></td>
+    </tr>
+    <tr>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R2-C1.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R2-C2.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R2-C3.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R2-C4.png" width="3000" height="3000"></td>
+    </tr>
+    <tr>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R3-C1.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R3-C2.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R3-C3.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R3-C4.png" width="3000" height="3000"></td>
+    </tr>
+    <tr>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R4-C1.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R4-C2.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R4-C3.png" width="3000" height="3000"></td>
+      <td style="padding: 0;"><img id="mapImageLeft" src="Images/GoogleSplit/R4-C4.png" width="3000" height="3000"></td>
+    </tr>
+  </table>
+</div>
+
+
+
+
 <div class="circle3K"></div>
 <div class="circle5K"></div>
 
 <div class="horizontalLineSmall" style = "top: 2820px;"></div>
-<div class="horizontalLineBig" style = "top: 6000px;"></div>
+<div class="horizontalLineBig" style = "top: 5999px;"></div>
 <div class="horizontalLineSmall" style = "top: 9181px;"></div>
 
 <div class="verticalLineSmall"   style = "left: 2820px;"></div>
-<div class="verticalLineBig"   style = "left: 6000px;"></div>
+<div class="verticalLineBig"   style = "left: 5999px;"></div>
 <div class="verticalLineSmall"   style = "left: 9181px;"></div>
 <div id="diaganalLine" class="diagonalLeft"></div>
 
@@ -61,7 +95,7 @@
 
 <!-- Context menu and Markers -->
 
-<!-- Main Menu-->
+<!-- Context Main Menu-->
 <table border="1" class="menuTable">
 <tr> 
 	<td class="highLight"><div onclick="openPlacesMenu(event)" class="context-menu-item" align="left"><nobr>Important Places</nobr></div></td>
@@ -83,6 +117,16 @@
 </table></div>
 
 
+<!-- Click Menu-->
+<div class="context-menu" id="idClickMenu">
+<table border="1" class="menuTable">
+<tr> 
+	<td class="highLight"><div onclick="showPrompt()" class="context-menu-item" align="left"><nobr>Display Point Details</nobr></div></td>
+</tr> 
+<tr> 
+	<td class="highLight"><div onclick="openGoogleMap(event)" class="context-menu-item" align="left"><nobr>Open Google Map</nobr></div></td> 
+</tr>
+</table></div>
 <!-- 5K Icon -->
 
 

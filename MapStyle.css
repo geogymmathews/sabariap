@@ -92,9 +92,9 @@
         }
 		.horizontalLineBig {
             position: absolute;
-			left: 4px;
+			left: 2px;
             width: 12000px; /* Length of the line (end X - start X) */
-            border-top: 2px dotted red;
+            border-top: 4px dotted red;
         }
 
         .verticalLineSmall {
@@ -106,9 +106,9 @@
 
         .verticalLineBig {
             position: absolute;
-			top: 4px;
+			top: 2px;
             height: 12000px; /* Length of the line (end Y - start Y) */
-            border-left: 2px dotted red;
+            border-left: 4px dotted red;
         }
         .diagonalLeft {
             position: absolute;
