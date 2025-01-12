@@ -480,7 +480,6 @@ function openTraversePopup()
   {
     // Get the current file name
     const fileName = window.location.pathname.split("/").pop();
-	alert(fileName);
     // Show or hide divs based on the file name
     if (fileName === "index.html") {
       document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
