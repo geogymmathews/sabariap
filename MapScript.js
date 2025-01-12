@@ -322,11 +322,7 @@ function toggleBackgroundImage()
 	const contextMainMenu = document.getElementById(ctxMainMenuID);
     contextMainMenu.style.display = 'none';
 
-	// Get the current file name
-    const fileName = window.location.pathname.split("/").pop();
-
-    // Show or hide divs based on the file name
-    if (fileName === "index.html") 
+    if (isInLocalDirectory()) 
 	{
 	  if (document.getElementById("Bhuvan_FullImage").className == "hidden" )
 	  {
@@ -343,7 +339,7 @@ function toggleBackgroundImage()
 		  document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
 
     } 
-	else if (fileName === "index2.html") 
+	else 
 	{
 	  if (document.getElementById("Bhuvan_SplitImages").className == "hidden" )
 	  {
@@ -484,7 +480,7 @@ function openTraversePopup()
   {
     // Get the current file name
     const fileName = window.location.pathname.split("/").pop();
-
+	alert(fileName);
     // Show or hide divs based on the file name
     if (fileName === "index.html") {
       document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
@@ -498,6 +494,20 @@ function openTraversePopup()
       document.getElementById("Google_SplitImages").classList.add("hidden");
     }
    }
+
+    function isInLocalDirectory() {
+    const fileName = window.location.pathname.split("/").pop();
+	alert(fileName);
+    if (fileName === "indexInternet.html" || fileName === "indexInter.html")
+		return false;
+	else if (fileName === "indexLocal.html" || fileName === "indexLoc.html" )
+		return true;
+    else
+		{
+		  const currentPath = window.location.href; // Get the current URL
+		  return currentPath.includes("geogymmathews.github.io/sabariap/");
+		}
+    }
 
 const htmlFolder = "Docs/";
 const pdfFolder = "Docs/ConsolidatedData/CertifiedCopy/";
