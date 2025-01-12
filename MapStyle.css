@@ -229,17 +229,14 @@
     .docDetailsPopup {
       display: none; /* Initially hidden */
       position: fixed;
-      top: 35%;
-      left: 20%;
-
-
-      transform: translate(-50%, -50%);
-      width: 500px;
+      top: 100px;
+      left: 500px;
+      width: 300px;
       background-color: white;
       border: 1px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      padding: 20px;
+      padding: 3px;
       border-radius: 8px;
     }
     .docDetailsPopup table {
@@ -250,7 +247,7 @@
       border: 1px solid #ddd;
     }
     .docDetailsPopup th, .docDetailsPopup td {
-      padding: 8px;
+      padding: 5px;
       text-align: left;
     }
     .docDetailsPopup .close-btn {
@@ -260,7 +257,7 @@
       color: white;
       background-color: #4CAF50;
       border: none;
-      padding: 8px;
+      padding: 5px;
       cursor: pointer;
       border-radius: 4px;
     }
