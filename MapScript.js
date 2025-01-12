@@ -319,9 +319,11 @@ return longitude;
 
 function toggleBackgroundImage()
 {
-    // Get the current file name
-    const fileName = window.location.pathname.split("/").pop();
+	const contextMainMenu = document.getElementById(ctxMainMenuID);
+    contextMainMenu.style.display = 'none';
 
+	// Get the current file name
+    const fileName = window.location.pathname.split("/").pop();
 
     // Show or hide divs based on the file name
     if (fileName === "index.html") 
@@ -357,6 +359,7 @@ function toggleBackgroundImage()
 		  document.getElementById("Google_FullImage").classList.add("hidden");
 		  document.getElementById("Bhuvan_FullImage").classList.add("hidden");
 	}
+
 }
 
 function openGoogleMap(event)
@@ -496,8 +499,6 @@ function openTraversePopup()
     }
    }
 
-//const htmlFolder = "file://C:/Geogy/Java/Kerala/geogy/Data/";
-//const pdfFolder = "file://C:/Geogy/Java/Kerala/geogy/Data/ConsolidatedData/CertifiedCopy/";
 const htmlFolder = "Docs/";
 const pdfFolder = "Docs/ConsolidatedData/CertifiedCopy/";
 

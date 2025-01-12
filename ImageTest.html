@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Device Detection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="deviceMessage">Detecting your device...</h1>
+
+  <script>
+    function detectDevice() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if (/iPhone/i.test(userAgent)) {
+        return "iPhone";
+      } else if (/iPad|Macintosh/i.test(userAgent) && 'ontouchend' in document) {
+        return "iPad";
+      } else if (/Android/i.test(userAgent)) {
+        return "Android";
+      } else if (/Windows|Mac|Linux/i.test(userAgent)) {
+        return "Desktop";
+      } else {
+        return "Unknown Device";
+      }
+    }
+
+    const deviceType = detectDevice();
+    console.log("Device type:", deviceType);
+
+    // Update the message on the webpage
+    const messageElement = document.getElementById("deviceMessage");
+    messageElement.textContent = `You are using a ${deviceType}`;
+  </script>
+</body>
+</html>
