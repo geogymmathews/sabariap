@@ -20,21 +20,26 @@
 <button onclick="openMainMenu(null)" class="floating-button"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
 
 
-<div>
-  <table cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
-    <tr cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
-      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
-        <img id="mapImage" src="Images/Part1.png" width="5997" height="12000" >
-      </td>
-      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
-        <img id="mapImage" src="Images/Part2.png" width="6003" height="12000" >
-      </td>
-    </tr>
-  </table>
+
+<div id="FullImage" class="hidden">
+<img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" >
 </div>
 
 
 
+
+<div id="SplitImages" class="hidden">
+  <table cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+    <tr cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+        <img id="mapImageLeft" src="Images/Part1.png" width="5997" height="12000" >
+      </td>
+      <td cellspacing="0" style="border-spacing: 0; border-collapse: collapse;">
+        <img id="mapImageRight" src="Images/Part2.png" width="6003" height="12000" >
+      </td>
+    </tr>
+  </table>
+</div>
 
 <div class="circle3K"></div>
 <div class="circle5K"></div>
@@ -346,7 +351,6 @@
   </div>
 
 <!-- Menu for Selected places-->
-<div id="Kanjirappally_2024_1339" style="left: 4388px; top: 212px;" class="iconYetTo" onclick="openMainMenu(event)" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
 <div id="Changanacherry_2022_1977" style="left: 1892px; top: 4550px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
 <div id="Erumeli_2020_1145" style="left: 809px; top: 3995px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
 <div id="Erumeli_2020_1161" style="left: 2135px; top: 2702px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">24K</div>
@@ -681,6 +685,7 @@
 <div id="Kanjirappally_2023_33" style="left: 4279px; top: 2218px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">78K</div>
 <div id="Kanjirappally_2023_451" style="left: 2463px; top: 1775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
 <div id="Kanjirappally_2023_730" style="left: 3050px; top: 1406px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
+<div id="Kanjirappally_2024_1339" style="left: 4388px; top: 212px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
 <div id="Kanjirappally_2024_1638" style="left: 3907px; top: 4913px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
 <div id="Kanjirappally_2024_548" style="left: 3390px; top: 5211px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
 <div id="Kanjirappally_2024_590" style="left: 3687px; top: 2152px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
@@ -704,6 +709,7 @@
 <div id="Ranni_2023_673" style="left: 4794px; top: 10510px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
 <div id="Ranni_2023_749" style="left: 4774px; top: 10347px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
 <div id="Ranni_2024_451" style="left: 5058px; top: 10877px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3L</div>
+
 
 
 <script>

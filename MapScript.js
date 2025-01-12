@@ -157,8 +157,10 @@
 
 	function initialize()
 	{
-		displayDocumentsBasedOnSettings();
-		document.getElementById('totalCount').innerHTML = objectArray.length + 1;
+	  displayDocumentsBasedOnSettings();
+  	  displayImageBasedOnFile();
+
+	  document.getElementById('totalCount').innerHTML = objectArray.length + 1;
 	}
 	function convertDate(dateString)
 	{
@@ -410,6 +412,22 @@ function openTraversePopup()
       mousePointer.style.display = "none";
 	  hidePopup();
     }
+
+  function displayImageBasedOnFile()
+  {
+    // Get the current file name
+    const fileName = window.location.pathname.split("/").pop();
+
+    // Show or hide divs based on the file name
+    if (fileName === "index.html") {
+      document.getElementById("FullImage").classList.remove("hidden");
+      document.getElementById("SplitImages").classList.add("hidden");
+    } else if (fileName === "index2.html") {
+      document.getElementById("SplitImages").classList.remove("hidden");
+      document.getElementById("FullImage").classList.add("hidden");
+    }
+   }
+
 //const htmlFolder = "file://C:/Geogy/Java/Kerala/geogy/Data/";
 //const pdfFolder = "file://C:/Geogy/Java/Kerala/geogy/Data/ConsolidatedData/CertifiedCopy/";
 const htmlFolder = "Docs/";
