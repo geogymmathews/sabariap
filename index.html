@@ -1,0 +1,698 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+
+<script src="MapScript.js">
+</script>
+<link rel="stylesheet" href="MapStyle.css">
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+
+<body  oncontextmenu="openMainMenu(event)" ondblclick="showPrompt()" onclick="hideContextMenu()" >
+<div style="left:4800px; top:600px;" class="overlay-Header"><nobr>Sabari Airport: Manimala- Suvey Numbers in 5k Radius </nobr></div>
+<!--<button onclick="openMainMenu(event)"></button> -->
+<img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" >
+
+
+
+<div class="circle3K"></div>
+<div class="circle5K"></div>
+
+<div class="horizontalLineSmall" style = "top: 2820px;"></div>
+<div class="horizontalLineBig" style = "top: 6000px;"></div>
+<div class="horizontalLineSmall" style = "top: 9181px;"></div>
+
+<div class="verticalLineSmall"   style = "left: 2820px;"></div>
+<div class="verticalLineBig"   style = "left: 6000px;"></div>
+<div class="verticalLineSmall"   style = "left: 9181px;"></div>
+<div id="diaganalLine" class="diagonalLeft"></div>
+
+
+<!-- Context menu and Markers -->
+
+
+<div class="context-menu" id="idContextMainMenu">
+
+<!-- Context menu and Markers -->
+
+<!-- Main Menu-->
+<table border="1" class="menuTable">
+<tr> 
+	<td class="highLight"><div onclick="openPlacesMenu(event)" class="context-menu-item" align="left"><nobr>Important Places</nobr></div></td>
+</tr> 
+<tr> 
+	<td class="highLight"><div onclick="openSettings(event)" class="context-menu-item" align="left"><nobr>Settings</nobr></div></td> 
+</tr>
+<tr> 
+	<td class="highLight"><div onclick="openGoogleMap(event)" class="context-menu-item" align="left"><nobr>Open Google Map</nobr></div></td> 
+</tr>
+<tr> 
+	<td class="highLight"><div onclick="toggleBackgroundImage()" class="context-menu-item" align="left"><nobr>Change Backgroup Map</nobr></div></td> 
+</tr>
+
+<tr> 
+	<td class="highLight"><div onclick="openTraversePopup()" class="context-menu-item" align="left"><nobr>Traverse Through Documents</nobr></div></td> 
+</tr>
+
+</table></div>
+
+
+<!-- 5K Icon -->
+
+
+<div id="mousePointer" style="left: 10px; top: 10px;display: none;" class="overlay-text"><i style="font-size:24px" class="fa">&#xf245;</i></div>
+
+
+<div style="left: 6000px; top: 11222px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 6000px; top: 780px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 780px; top: 6000px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 11222px; top: 6000px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+
+
+<div style="left: 2309px; top: 2307px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 9691px; top: 9692px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 2323px; top: 9709px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+<div style="left: 9709px; top: 2322px;" class="overlay-text"><span class="red-icon">&#10106;</span></div>
+
+<!-- 3K Icon -->
+<div style="left: 6000px; top: 2820px;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 2820px; top: 6000px;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 9180px; top: 6000px" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 6000px; top: 9180px;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+
+<div style="left: 3766px; top: 8264px;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 8265px; top: 3767px" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 8248px; top: 8249px;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+<div style="left: 3750px; top: 3753px;;" class="overlay-text"><span class="red-icon">&#10104;</span></div>
+
+ 
+
+
+<div class="docDetailsPopup" id="idSettings">
+<table border="1" class="menuTable">
+
+<tr>
+ <th>Document Details on Mouse Over</th>
+
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" id="toggleSwitch" onchange="onToggleValueChange()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide Rejected Documents</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" id="toggleRejectedDoc" checked onchange="displayDocumentsBasedOnSettings()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide Yet to Classify Status Documents</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide Selected Documents</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" id="toggleSelectedDoc" onchange="displayDocumentsBasedOnSettings()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide Documents Outside 3 year Window</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" id="toggle3YearWindow" onchange="displayDocumentsBasedOnSettings()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide Documents above 5K KM Distance</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" checked id="toggle5KDoc" onchange="displayDocumentsBasedOnSettings()">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+ <th>Hide with Per Cent value less than</th>
+ <td>
+    
+	<label class="toggle-container">
+	<select id="centAmountSelector" onchange = "displayDocumentsBasedOnSettings()">
+	  <option value="60000">60K</option>
+	  <option value="70000">70K</option>
+	  <option value="80000">80K</option>
+	  <option value="90000">90K</option>
+	  <option value="100000">1L</option>
+	  <option value="150000">1.5L</option>
+	  <option value="200000">2L</option>
+	  <option value="300000">3L</option>
+	  <option value="1000000">10L</option>
+	</select>
+    </label>
+ </td> 
+</tr>
+
+
+<tr>
+ <th>On Travesal:Show Document Details</th>
+ <td>
+    
+	<label class="toggle-container">
+        <input type="checkbox" class="toggle-checkbox" checked id="toggleTravesalShowDocuments">
+        <div class="toggle-track">
+            <div class="toggle-handle"></div>
+        </div>
+    </label>
+ </td> 
+</tr>
+
+<tr>
+<td colspan="2" align="center">
+    <button class="close-btn" onclick="hideSettings()">Close Setting</button>
+</td>
+</tr>
+</table></div>
+
+
+<!-- Menu for Important Places -->
+<div class="context-menu" id="idContextMenuPlaces">
+<table border="1" class="menuTable">
+<tr>
+ <td colspan="6" class="highLight"><div onclick="navigateTo(6005, 6013)" class="context-menu-item">Center</div></td>
+</tr>
+<tr> 
+<td class="highLight"><div onclick="navigateTo(4497, 1494)" class="context-menu-item"><nobr>Valakkayam</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(7334, 1137)" class="context-menu-item"><nobr>Govt HSS Vizhikkathodu</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(922, 2686)" class="context-menu-item"><nobr>Mooleplavu Jn</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(1660, 2532)" class="context-menu-item"><nobr>Cheruvallippalli</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(3090, 2007)" class="context-menu-item"><nobr>Elvis House</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(3888, 2388)" class="context-menu-item"><nobr>Pazhayidam</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6195, 2275)" class="context-menu-item"><nobr>Chenappadi</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(654, 3773)" class="context-menu-item"><nobr>Manimala Bus Stand</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(8407, 3563)" class="context-menu-item"><nobr>Hindustan Pharmacy College</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5814, 3984)" class="context-menu-item"><nobr>Marottichuvadu</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(2651, 4836)" class="context-menu-item"><nobr>Karikkattoor</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(3080, 5382)" class="context-menu-item"><nobr>Anjilimoodu</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(3099, 5898)" class="context-menu-item"><nobr>Karimpanakkulam Kurishu</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(10809, 4698)" class="context-menu-item"><nobr>Orumkal Bridge</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6000, 4573)" class="context-menu-item"><nobr>Permpattikunnel Kuttarappalli Road</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5316, 4741)" class="context-menu-item"><nobr>Myladupara</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(4835, 5082)" class="context-menu-item"><nobr>Karikkattoor Center</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5112, 5208)" class="context-menu-item"><nobr>Kurishupalli</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5419, 5459)" class="context-menu-item"><nobr>Paruthippara</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(11570, 5166)" class="context-menu-item"><nobr>Orumkal Kadavu Tea Stall</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(1529, 6342)" class="context-menu-item"><nobr>Pulikkallu</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5913, 6484)" class="context-menu-item"><nobr>Charuvalil Jn</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(5447, 6775)" class="context-menu-item"><nobr>Charuvelil Gate</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6334, 6865)" class="context-menu-item"><nobr>Koovakkavu</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(4520, 7252)" class="context-menu-item"><nobr>Ponthanpuzha Jn</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(4713, 7371)" class="context-menu-item"><nobr>Ponthanpuzha Forest</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6737, 7344)" class="context-menu-item"><nobr>Mukkada Jn</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6664, 7555)" class="context-menu-item"><nobr>Mukkada Rubber Board</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(9680, 7150)" class="context-menu-item"><nobr>Karithodu</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(10678, 7100)" class="context-menu-item"><nobr>Kanakappalam</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(2568, 8118)" class="context-menu-item"><nobr>Alapra</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6315, 8691)" class="context-menu-item"><nobr>Plachery</nobr></div></td></tr><tr> 
+<td class="highLight"><div onclick="navigateTo(8131, 9682)" class="context-menu-item"><nobr>Chethakkal Village Office</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6610, 10889)" class="context-menu-item"><nobr>Bethel Marthoma Church</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(4990, 11106)" class="context-menu-item"><nobr>Valiyakavu PO</nobr></div></td> 
+<td class="highLight"><div onclick="navigateTo(6620, 11183)" class="context-menu-item"><nobr>Sabari Hotel</nobr></div></td>
+</tr>
+</table></div>
+
+<div style="left: 4497px; top: 1494px;" class="overlay-text">Valakkayam</div>
+<div style="left: 7334px; top: 1137px;" class="overlay-text">Govt HSS Vizhikkathodu</div>
+<div style="left: 922px; top: 2686px;" class="overlay-text">Mooleplavu Jn</div>
+<div style="left: 1660px; top: 2532px;" class="overlay-text">Cheruvallippalli</div>
+<div style="left: 3090px; top: 2007px;" class="overlay-text">Elvis House</div>
+<div style="left: 3888px; top: 2388px;" class="overlay-text">Pazhayidam</div>
+<div style="left: 6195px; top: 2275px;" class="overlay-text">Chenappadi</div>
+<div style="left: 654px; top: 3773px;" class="overlay-text">Manimala Bus Stand</div>
+<div style="left: 8407px; top: 3563px;" class="overlay-text">Hindustan Pharmacy College</div>
+<div style="left: 5814px; top: 3984px;" class="overlay-text">Marottichuvadu</div>
+<div style="left: 2651px; top: 4836px;" class="overlay-text">Karikkattoor</div>
+<div style="left: 3080px; top: 5382px;" class="overlay-text">Anjilimoodu</div>
+<div style="left: 3099px; top: 5898px;" class="overlay-text">Karimpanakkulam Kurishu</div>
+<div style="left: 10809px; top: 4698px;" class="overlay-text">Orumkal Bridge</div>
+<div style="left: 6000px; top: 4573px;" class="overlay-text">Permpattikunnel Kuttarappalli Road</div>
+<div style="left: 5316px; top: 4741px;" class="overlay-text">Myladupara</div>
+<div style="left: 4835px; top: 5082px;" class="overlay-text">Karikkattoor Center</div>
+<div style="left: 5112px; top: 5208px;" class="overlay-text">Kurishupalli</div>
+<div style="left: 5419px; top: 5459px;" class="overlay-text">Paruthippara</div>
+<div style="left: 11570px; top: 5166px;" class="overlay-text">Orumkal Kadavu Tea Stall</div>
+<div style="left: 1529px; top: 6342px;" class="overlay-text">Pulikkallu</div>
+<div style="left: 5913px; top: 6484px;" class="overlay-text">Charuvalil Jn</div>
+<div style="left: 5447px; top: 6775px;" class="overlay-text">Charuvelil Gate</div>
+<div style="left: 6334px; top: 6865px;" class="overlay-text">Koovakkavu</div>
+<div style="left: 4520px; top: 7252px;" class="overlay-text">Ponthanpuzha Jn</div>
+<div style="left: 4713px; top: 7371px;" class="overlay-text">Ponthanpuzha Forest</div>
+<div style="left: 6737px; top: 7344px;" class="overlay-text">Mukkada Jn</div>
+<div style="left: 6664px; top: 7555px;" class="overlay-text">Mukkada Rubber Board</div>
+<div style="left: 9680px; top: 7150px;" class="overlay-text">Karithodu</div>
+<div style="left: 10678px; top: 7100px;" class="overlay-text">Kanakappalam</div>
+<div style="left: 2568px; top: 8118px;" class="overlay-text">Alapra</div>
+<div style="left: 6315px; top: 8691px;" class="overlay-text">Plachery</div>
+<div style="left: 8131px; top: 9682px;" class="overlay-text">Chethakkal Village Office</div>
+<div style="left: 6610px; top: 10889px;" class="overlay-text">Bethel Marthoma Church</div>
+<div style="left: 4990px; top: 11106px;" class="overlay-text">Valiyakavu PO</div>
+<div style="left: 6620px; top: 11183px;" class="overlay-text">Sabari Hotel</div>
+
+<!-- Popup for Document Details-->
+<div class="docDetailsPopup" id="docDetailsPopup">
+    <div id="contentArea">
+    </div>
+    <button class="close-btn" onclick="hidePopup()">Close</button>
+</div>
+
+<!-- Popup for Document Traversal-->
+  <div class="popupTraverse" id="popupTraverse">
+    <div class="popupTraverse-header">
+      <span>Go to Next Document</span>
+      <button class="close-btn" onclick="closepopupTraverse()">X</button>
+    </div>
+    <div class="popupTraverse-input">
+      <label for="indexInput">Index:</label>
+      <input type="number" id="indexInput" value=0 placeholder="Enter index">
+      <label for="indexInput"> of </label>
+      <label id="totalCount"> </label>
+    </div>
+    <div class="popupTraverse-input">
+      <label for="visibleDocs">Total  Documents Visible : </label>
+      <label id="visibleDocs"> </label>
+    </div>
+    <div class="popupTraverse-buttons">
+      <button class="prev" onclick="handlePrev()">Prev</button>
+      <button class="next" onclick="handleNext()">Next</button>
+    </div>
+  </div>
+
+<!-- Menu for Selected places-->
+<div id="Changanacherry_2022_1977" style="left: 1892px; top: 4550px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2020_1145" style="left: 809px; top: 3995px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2020_1161" style="left: 2135px; top: 2702px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">24K</div>
+<div id="Erumeli_2020_1167" style="left: 1631px; top: 4670px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">85K</div>
+<div id="Erumeli_2020_1191" style="left: 488px; top: 4438px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2020_1299" style="left: 3153px; top: 5360px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">50K</div>
+<div id="Erumeli_2020_1395" style="left: 3092px; top: 2252px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">99K</div>
+<div id="Erumeli_2020_1402" style="left: 1661px; top: 4670px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2L</div>
+<div id="Erumeli_2020_1412" style="left: 4097px; top: 5001px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">95K</div>
+<div id="Erumeli_2020_1419" style="left: 6279px; top: 7287px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">78K</div>
+<div id="Erumeli_2020_1508" style="left: 5996px; top: 5269px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2020_326" style="left: 3011px; top: 5744px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.7L</div>
+<div id="Erumeli_2020_453" style="left: 3847px; top: 4913px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2020_634" style="left: 1278px; top: 4978px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.9L</div>
+<div id="Erumeli_2020_867" style="left: 3299px; top: 7820px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2020_932" style="left: 1177px; top: 4533px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">96K</div>
+<div id="Erumeli_2021_1201" style="left: 1696px; top: 2652px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">99K</div>
+<div id="Erumeli_2021_1202" style="left: 1726px; top: 2652px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">99K</div>
+<div id="Erumeli_2021_1215" style="left: 4499px; top: 4961px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">48K</div>
+<div id="Erumeli_2021_1218" style="left: 1756px; top: 2652px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2021_1219" style="left: 1786px; top: 2652px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2021_1220" style="left: 1816px; top: 2652px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2021_1221" style="left: 1696px; top: 2682px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2021_1226" style="left: 1726px; top: 2682px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2021_1227" style="left: 1756px; top: 2682px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2021_1228" style="left: 1786px; top: 2682px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2021_1380" style="left: 2975px; top: 5615px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">67K</div>
+<div id="Erumeli_2021_1381" style="left: 5982px; top: 1773px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2021_1386" style="left: 1816px; top: 2682px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2021_1404" style="left: 4386px; top: 7214px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2021_1417" style="left: 2732px; top: 7879px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2021_1442" style="left: 11008px; top: 5671px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2L</div>
+<div id="Erumeli_2021_1517" style="left: 5014px; top: 3181px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">32K</div>
+<div id="Erumeli_2021_1524" style="left: 4465px; top: 4759px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">49K</div>
+<div id="Erumeli_2021_1532" style="left: 6150px; top: 3707px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">81K</div>
+<div id="Erumeli_2021_1541" style="left: 4698px; top: 6043px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">28K</div>
+<div id="Erumeli_2021_1548" style="left: 11775px; top: 4414px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Erumeli_2021_1597" style="left: 5907px; top: 1875px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2021_1636" style="left: 2318px; top: 3970px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">24K</div>
+<div id="Erumeli_2021_1650" style="left: 4182px; top: 2522px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3L</div>
+<div id="Erumeli_2021_1657" style="left: 5863px; top: 7242px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">16K</div>
+<div id="Erumeli_2021_1690" style="left: 6420px; top: 1549px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2021_1692" style="left: 5179px; top: 2749px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">21K</div>
+<div id="Erumeli_2021_1699" style="left: 2024px; top: 6030px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.4L</div>
+<div id="Erumeli_2021_1718" style="left: 5365px; top: 3284px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">74K</div>
+<div id="Erumeli_2021_1729" style="left: 4310px; top: 5325px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2021_1730" style="left: 7368px; top: 2997px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">21K</div>
+<div id="Erumeli_2021_1733" style="left: 5390px; top: 6457px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2021_1734" style="left: 6437px; top: 6843px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">77K</div>
+<div id="Erumeli_2021_1805" style="left: 11358px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
+<div id="Erumeli_2021_1807" style="left: 11286px; top: 5303px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">84K</div>
+<div id="Erumeli_2021_1809" style="left: 10269px; top: 4745px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2021_1816" style="left: 7116px; top: 3561px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">20K</div>
+<div id="Erumeli_2021_1836" style="left: 2839px; top: 4740px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2021_1843" style="left: 4736px; top: 5310px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">63K</div>
+<div id="Erumeli_2021_1851" style="left: 10068px; top: 4322px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2021_1852" style="left: 10098px; top: 4322px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2021_1853" style="left: 11764px; top: 4691px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2021_1946" style="left: 6091px; top: 3139px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">29K</div>
+<div id="Erumeli_2021_2" style="left: 2265px; top: 4296px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">34K</div>
+<div id="Erumeli_2021_240" style="left: 3771px; top: 5216px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2021_340" style="left: 3183px; top: 5360px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">49K</div>
+<div id="Erumeli_2021_458" style="left: 2826px; top: 2409px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">59K</div>
+<div id="Erumeli_2021_909" style="left: 2698px; top: 2242px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">92K</div>
+<div id="Erumeli_2022_1002" style="left: 11055px; top: 7025px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2022_1029" style="left: 10292px; top: 6323px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">87K</div>
+<div id="Erumeli_2022_1045" style="left: 7688px; top: 2830px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_1076" style="left: 2959px; top: 4806px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Erumeli_2022_1096" style="left: 6603px; top: 1524px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.7L</div>
+<div id="Erumeli_2022_11" style="left: 1343px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_110" style="left: 9983px; top: 6743px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_114" style="left: 11875px; top: 7498px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.9L</div>
+<div id="Erumeli_2022_1146" style="left: 1260px; top: 3394px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_1153" style="left: 2304px; top: 3781px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">22K</div>
+<div id="Erumeli_2022_1197" style="left: 6121px; top: 3139px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">32K</div>
+<div id="Erumeli_2022_122" style="left: 3299px; top: 5646px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">49K</div>
+<div id="Erumeli_2022_1241" style="left: 11794px; top: 4691px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2022_1242" style="left: 11824px; top: 4691px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2022_1288" style="left: 5753px; top: 3621px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">29K</div>
+<div id="Erumeli_2022_1300" style="left: 11645px; top: 5270px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2022_1310" style="left: 1521px; top: 6248px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">71K</div>
+<div id="Erumeli_2022_1394" style="left: 1801px; top: 4736px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2022_1437" style="left: 6577px; top: 7407px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">67K</div>
+<div id="Erumeli_2022_1443" style="left: 5953px; top: 3304px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">32K</div>
+<div id="Erumeli_2022_145" style="left: 6665px; top: 7241px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2022_1459" style="left: 11373px; top: 6323px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2022_1505" style="left: 518px; top: 4438px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">79K</div>
+<div id="Erumeli_2022_1517" style="left: 7312px; top: 7288px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">53K</div>
+<div id="Erumeli_2022_1522" style="left: 10299px; top: 4745px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">79K</div>
+<div id="Erumeli_2022_157" style="left: 9831px; top: 4750px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2022_1575" style="left: 5156px; top: 6769px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2022_158" style="left: 11750px; top: 6144px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2022_1598" style="left: 2334px; top: 3781px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_160" style="left: 11975px; top: 4842px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.5L</div>
+<div id="Erumeli_2022_1642" style="left: 2364px; top: 6252px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_1704" style="left: 11588px; top: 4724px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2022_1724" style="left: 2116px; top: 4593px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2022_1741" style="left: 2055px; top: 2484px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2022_1750" style="left: 4813px; top: 5803px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">74K</div>
+<div id="Erumeli_2022_1751" style="left: 4843px; top: 5803px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">74K</div>
+<div id="Erumeli_2022_178" style="left: 11316px; top: 5303px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_1820" style="left: 6116px; top: 2316px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2022_1823" style="left: 11397px; top: 6201px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_1835" style="left: 6582px; top: 7602px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">54K</div>
+<div id="Erumeli_2022_1877" style="left: 1831px; top: 4736px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2022_1894" style="left: 5395px; top: 3284px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">36K</div>
+<div id="Erumeli_2022_1900" style="left: 886px; top: 4306px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">73K</div>
+<div id="Erumeli_2022_1995" style="left: 2762px; top: 7879px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_2031" style="left: 6250px; top: 2141px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">5.7L</div>
+<div id="Erumeli_2022_2039" style="left: 10716px; top: 5791px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2L</div>
+<div id="Erumeli_2022_271" style="left: 1141px; top: 4108px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2022_280" style="left: 913px; top: 3905px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">61K</div>
+<div id="Erumeli_2022_330" style="left: 3445px; top: 6835px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">22K</div>
+<div id="Erumeli_2022_367" style="left: 2869px; top: 4740px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2022_376" style="left: 6428px; top: 7369px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2022_411" style="left: 2348px; top: 3970px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">63K</div>
+<div id="Erumeli_2022_43" style="left: 11672px; top: 4252px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_472" style="left: 10329px; top: 4745px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_494" style="left: 2437px; top: 5249px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.7L</div>
+<div id="Erumeli_2022_5" style="left: 6760px; top: 6954px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">68K</div>
+<div id="Erumeli_2022_550" style="left: 11655px; top: 5410px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2022_570" style="left: 11953px; top: 5097px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">5.4L</div>
+<div id="Erumeli_2022_572" style="left: 11853px; top: 6206px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">4L</div>
+<div id="Erumeli_2022_576" style="left: 11702px; top: 4252px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2022_578" style="left: 11722px; top: 5946px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">68K</div>
+<div id="Erumeli_2022_607" style="left: 5797px; top: 2148px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">87K</div>
+<div id="Erumeli_2022_639" style="left: 11854px; top: 4691px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2022_645" style="left: 2856px; top: 2409px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">35K</div>
+<div id="Erumeli_2022_668" style="left: 5894px; top: 5442px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">76K</div>
+<div id="Erumeli_2022_698" style="left: 6452px; top: 7253px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">25K</div>
+<div id="Erumeli_2022_699" style="left: 11038px; top: 5671px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.1L</div>
+<div id="Erumeli_2022_70" style="left: 10013px; top: 6743px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_715" style="left: 1290px; top: 3394px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">38K</div>
+<div id="Erumeli_2022_72" style="left: 11532px; top: 6137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2022_800" style="left: 4118px; top: 4532px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">53K</div>
+<div id="Erumeli_2022_851" style="left: 12005px; top: 4842px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.4L</div>
+<div id="Erumeli_2022_857" style="left: 11419px; top: 5137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.4L</div>
+<div id="Erumeli_2022_914" style="left: 11562px; top: 6137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">69K</div>
+<div id="Erumeli_2022_933" style="left: 11291px; top: 6258px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2022_944" style="left: 5074px; top: 4818px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.7L</div>
+<div id="Erumeli_2022_951" style="left: 11831px; top: 5028px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">94K</div>
+<div id="Erumeli_2022_96" style="left: 11068px; top: 5671px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2022_999" style="left: 6467px; top: 6843px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2023_1002" style="left: 548px; top: 4438px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2023_1006" style="left: 3461px; top: 5294px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2023_1073" style="left: 999px; top: 3823px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">8.9L</div>
+<div id="Erumeli_2023_1081" style="left: 1320px; top: 3394px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1083" style="left: 6847px; top: 7031px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2023_1094" style="left: 3064px; top: 2435px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_111" style="left: 4760px; top: 2997px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">96K</div>
+<div id="Erumeli_2023_112" style="left: 5931px; top: 5854px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">82K</div>
+<div id="Erumeli_2023_1126" style="left: 2364px; top: 3781px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">4.9L</div>
+<div id="Erumeli_2023_1156" style="left: 1373px; top: 4324px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2023_1161" style="left: 3310px; top: 3082px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2023_1174" style="left: 11780px; top: 6144px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1177" style="left: 4475px; top: 5737px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">61K</div>
+<div id="Erumeli_2023_1243" style="left: 3117px; top: 5586px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">70K</div>
+<div id="Erumeli_2023_1271" style="left: 1421px; top: 4755px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1299" style="left: 464px; top: 5946px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1317" style="left: 5673px; top: 2627px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">81K</div>
+<div id="Erumeli_2023_1322" style="left: 1029px; top: 3897px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">84K</div>
+<div id="Erumeli_2023_1323" style="left: 1691px; top: 4670px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.5L</div>
+<div id="Erumeli_2023_1347" style="left: 3542px; top: 6559px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1367" style="left: 4324px; top: 4969px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1393" style="left: 1861px; top: 4736px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.8L</div>
+<div id="Erumeli_2023_1395" style="left: 11602px; top: 5996px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2023_1400" style="left: 3512px; top: 6413px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1406" style="left: 1163px; top: 3545px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1425" style="left: 11449px; top: 5137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.3L</div>
+<div id="Erumeli_2023_1437" style="left: 1543px; top: 3987px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2023_1438" style="left: 1940px; top: 4775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1445" style="left: 6054px; top: 2822px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_1478" style="left: 6235px; top: 7417px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">63K</div>
+<div id="Erumeli_2023_1479" style="left: 1562px; top: 4411px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1480" style="left: 1592px; top: 4411px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2023_1481" style="left: 1622px; top: 4411px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1482" style="left: 1403px; top: 4324px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2023_1483" style="left: 1433px; top: 4324px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2023_1484" style="left: 1652px; top: 4411px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1520" style="left: 1059px; top: 3897px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2023_1529" style="left: 11592px; top: 6137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Erumeli_2023_1531" style="left: 11346px; top: 5303px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2023_1540" style="left: 4148px; top: 4532px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_1542" style="left: 6505px; top: 7055px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_157" style="left: 11388px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">77K</div>
+<div id="Erumeli_2023_1607" style="left: 1721px; top: 4670px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
+<div id="Erumeli_2023_1618" style="left: 11893px; top: 6640px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2023_1628" style="left: 11427px; top: 6201px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Erumeli_2023_163" style="left: 11098px; top: 5671px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_1642" style="left: 11544px; top: 4965px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">77K</div>
+<div id="Erumeli_2023_1651" style="left: 3802px; top: 4716px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2023_1667" style="left: 1970px; top: 4775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1676" style="left: 2792px; top: 7879px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2023_1677" style="left: 2822px; top: 7879px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2023_1682" style="left: 2000px; top: 4775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1683" style="left: 3300px; top: 5211px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1686" style="left: 1350px; top: 3394px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1688" style="left: 664px; top: 6097px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.1L</div>
+<div id="Erumeli_2023_1718" style="left: 1373px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2023_1757" style="left: 1380px; top: 3394px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1766" style="left: 11321px; top: 6258px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">69K</div>
+<div id="Erumeli_2023_1782" style="left: 11533px; top: 5768px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">91K</div>
+<div id="Erumeli_2023_1791" style="left: 1417px; top: 4573px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2023_1798" style="left: 3330px; top: 5211px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2023_1831" style="left: 2850px; top: 4525px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1858" style="left: 6996px; top: 2416px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
+<div id="Erumeli_2023_1870" style="left: 2394px; top: 3781px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">89K</div>
+<div id="Erumeli_2023_1872" style="left: 5463px; top: 3413px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_1892" style="left: 4495px; top: 4759px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2023_194" style="left: 11732px; top: 4252px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_195" style="left: 11762px; top: 4252px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_2" style="left: 11921px; top: 6800px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">81K</div>
+<div id="Erumeli_2023_254" style="left: 11483px; top: 5421px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.6L</div>
+<div id="Erumeli_2023_273" style="left: 6027px; top: 5952px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2023_282" style="left: 11712px; top: 5534px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2023_302" style="left: 11884px; top: 4691px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2023_304" style="left: 4416px; top: 7214px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.4L</div>
+<div id="Erumeli_2023_319" style="left: 11675px; top: 5270px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2023_327" style="left: 6026px; top: 4341px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">99K</div>
+<div id="Erumeli_2023_335" style="left: 6494px; top: 7558px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">31K</div>
+<div id="Erumeli_2023_341" style="left: 6000px; top: 2221px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2023_344" style="left: 11810px; top: 6144px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">87K</div>
+<div id="Erumeli_2023_359" style="left: 2510px; top: 8149px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">73K</div>
+<div id="Erumeli_2023_364" style="left: 6084px; top: 2822px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2023_376" style="left: 11418px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2023_431" style="left: 1463px; top: 4324px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_47" style="left: 4340px; top: 5325px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2023_496" style="left: 11138px; top: 5846px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2023_538" style="left: 11101px; top: 4548px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">88K</div>
+<div id="Erumeli_2023_591" style="left: 4178px; top: 4532px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">53K</div>
+<div id="Erumeli_2023_601" style="left: 11172px; top: 6188px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">73K</div>
+<div id="Erumeli_2023_649" style="left: 2321px; top: 8269px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.2L</div>
+<div id="Erumeli_2023_657" style="left: 11563px; top: 5768px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2023_694" style="left: 3877px; top: 4913px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">31K</div>
+<div id="Erumeli_2023_742" style="left: 9776px; top: 4625px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.9L</div>
+<div id="Erumeli_2023_766" style="left: 11951px; top: 8248px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2023_806" style="left: 11814px; top: 4310px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">63K</div>
+<div id="Erumeli_2023_83" style="left: 2515px; top: 4282px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">66K</div>
+<div id="Erumeli_2023_840" style="left: 3761px; top: 5388px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2023_882" style="left: 2899px; top: 4740px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2023_945" style="left: 4212px; top: 2522px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.7L</div>
+<div id="Erumeli_2023_964" style="left: 6612px; top: 7602px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_1006" style="left: 4904px; top: 5680px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">22K</div>
+<div id="Erumeli_2024_1011" style="left: 3081px; top: 5994px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.4L</div>
+<div id="Erumeli_2024_1022" style="left: 2398px; top: 4457px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">83K</div>
+<div id="Erumeli_2024_1034" style="left: 1089px; top: 3897px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.8L</div>
+<div id="Erumeli_2024_1040" style="left: 2886px; top: 2409px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.8L</div>
+<div id="Erumeli_2024_1044" style="left: 11376px; top: 5303px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">79K</div>
+<div id="Erumeli_2024_1090" style="left: 1119px; top: 3897px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">6.2L</div>
+<div id="Erumeli_2024_11" style="left: 1260px; top: 3424px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2024_114" style="left: 5296px; top: 6697px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2024_126" style="left: 11693px; top: 7133px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">63K</div>
+<div id="Erumeli_2024_128" style="left: 12035px; top: 4842px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.6L</div>
+<div id="Erumeli_2024_132" style="left: 11764px; top: 4721px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2024_137" style="left: 2880px; top: 4525px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_155" style="left: 1891px; top: 4736px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_165" style="left: 1193px; top: 3545px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_194" style="left: 11809px; top: 7390px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.9L</div>
+<div id="Erumeli_2024_210" style="left: 6334px; top: 2409px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2L</div>
+<div id="Erumeli_2024_218" style="left: 4519px; top: 3229px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_224" style="left: 3634px; top: 7623px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2024_226" style="left: 1751px; top: 4670px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.5L</div>
+<div id="Erumeli_2024_255" style="left: 11448px; top: 5401px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2024_276" style="left: 6104px; top: 3342px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2024_298" style="left: 4614px; top: 7135px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.7L</div>
+<div id="Erumeli_2024_300" style="left: 4354px; top: 4969px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_313" style="left: 11593px; top: 5768px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2024_338" style="left: 11705px; top: 5270px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2024_34" style="left: 4976px; top: 5860px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">38K</div>
+<div id="Erumeli_2024_347" style="left: 1531px; top: 4240px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_349" style="left: 6056px; top: 4341px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2024_354" style="left: 3360px; top: 5211px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_366" style="left: 11272px; top: 4756px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2024_399" style="left: 2538px; top: 4513px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">82K</div>
+<div id="Erumeli_2024_406" style="left: 4763px; top: 4763px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">65K</div>
+<div id="Erumeli_2024_407" style="left: 1631px; top: 4700px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.7L</div>
+<div id="Erumeli_2024_412" style="left: 1921px; top: 4736px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2024_422" style="left: 1276px; top: 4455px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">78K</div>
+<div id="Erumeli_2024_446" style="left: 9991px; top: 6556px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">77K</div>
+<div id="Erumeli_2024_454" style="left: 4446px; top: 7214px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2024_458" style="left: 4208px; top: 4532px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_469" style="left: 11994px; top: 4503px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.5L</div>
+<div id="Erumeli_2024_476" style="left: 11747px; top: 6370px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
+<div id="Erumeli_2024_496" style="left: 1974px; top: 4417px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.6L</div>
+<div id="Erumeli_2024_504" style="left: 2916px; top: 2409px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">62K</div>
+<div id="Erumeli_2024_521" style="left: 4693px; top: 6814px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">61K</div>
+<div id="Erumeli_2024_534" style="left: 4627px; top: 2867px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.4L</div>
+<div id="Erumeli_2024_535" style="left: 11941px; top: 4943px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.2L</div>
+<div id="Erumeli_2024_551" style="left: 4888px; top: 3191px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
+<div id="Erumeli_2024_557" style="left: 4645px; top: 5188px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Erumeli_2024_56" style="left: 3506px; top: 6412px;" class="iconRejected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">37K</div>
+<div id="Erumeli_2024_601" style="left: 11839px; top: 7390px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Erumeli_2024_622" style="left: 11771px; top: 4681px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.6L</div>
+<div id="Erumeli_2024_632" style="left: 5415px; top: 5611px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_657" style="left: 11743px; top: 5230px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">15L</div>
+<div id="Erumeli_2024_664" style="left: 4676px; top: 4899px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_665" style="left: 4706px; top: 4899px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_676" style="left: 5420px; top: 6457px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_715" style="left: 3158px; top: 7962px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_724" style="left: 6607px; top: 7407px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2024_730" style="left: 6458px; top: 7369px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Erumeli_2024_737" style="left: 11502px; top: 4790px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_739" style="left: 6207px; top: 2441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Erumeli_2024_752" style="left: 11622px; top: 6137px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">79K</div>
+<div id="Erumeli_2024_755" style="left: 1223px; top: 3545px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">67K</div>
+<div id="Erumeli_2024_784" style="left: 4476px; top: 7214px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">80K</div>
+<div id="Erumeli_2024_829" style="left: 2191px; top: 8418px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Erumeli_2024_840" style="left: 11837px; top: 5747px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">8.4L</div>
+<div id="Erumeli_2024_841" style="left: 11867px; top: 5747px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">8.4L</div>
+<div id="Erumeli_2024_864" style="left: 3975px; top: 5385px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">68K</div>
+<div id="Erumeli_2024_877" style="left: 551px; top: 4704px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Erumeli_2024_907" style="left: 4238px; top: 4532px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Erumeli_2024_921" style="left: 6068px; top: 6984px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2024_944" style="left: 10001px; top: 5514px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Erumeli_2024_956" style="left: 2852px; top: 7879px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">75K</div>
+<div id="Erumeli_2024_97" style="left: 2428px; top: 4457px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">71K</div>
+<div id="Kanjirappally_2021_2369" style="left: 3589px; top: 5066px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Kanjirappally_2021_2527" style="left: 3632px; top: 1548px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">84K</div>
+<div id="Kanjirappally_2022_1572" style="left: 3991px; top: 2300px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.1L</div>
+<div id="Kanjirappally_2022_1573" style="left: 3473px; top: 834px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">91K</div>
+<div id="Kanjirappally_2022_1693" style="left: 4128px; top: 1973px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3L</div>
+<div id="Kanjirappally_2022_2326" style="left: 2300px; top: 1394px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">84K</div>
+<div id="Kanjirappally_2022_2925" style="left: 4496px; top: 1742px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.4L</div>
+<div id="Kanjirappally_2022_2935" style="left: 1308px; top: 4978px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">90K</div>
+<div id="Kanjirappally_2022_383" style="left: 2496px; top: 1156px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">4.7L</div>
+<div id="Kanjirappally_2023_212" style="left: 3573px; top: 2243px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.3L</div>
+<div id="Kanjirappally_2023_2431" style="left: 2631px; top: 1416px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.4L</div>
+<div id="Kanjirappally_2023_2501" style="left: 4158px; top: 1973px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Kanjirappally_2023_2709" style="left: 1682px; top: 4411px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2023_2710" style="left: 1562px; top: 4441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2023_2711" style="left: 1592px; top: 4441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2023_33" style="left: 4279px; top: 2218px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">78K</div>
+<div id="Kanjirappally_2023_451" style="left: 2463px; top: 1775px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Kanjirappally_2023_730" style="left: 3050px; top: 1406px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
+<div id="Kanjirappally_2024_1339" style="left: 4388px; top: 212px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.2L</div>
+<div id="Kanjirappally_2024_1638" style="left: 3907px; top: 4913px;" class="iconSelected" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1L</div>
+<div id="Kanjirappally_2024_548" style="left: 3390px; top: 5211px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_590" style="left: 3687px; top: 2152px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
+<div id="Kanjirappally_2024_623" style="left: 2533px; top: 2365px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_643" style="left: 1622px; top: 4441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_644" style="left: 1652px; top: 4441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_645" style="left: 1682px; top: 4441px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_646" style="left: 1562px; top: 4471px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Kanjirappally_2024_650" style="left: 1592px; top: 4471px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">64K</div>
+<div id="Koovapally_2021_1023" style="left: 10846px; top: 3040px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.3L</div>
+<div id="Koovapally_2021_1087" style="left: 10858px; top: 2318px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.4L</div>
+<div id="Koovapally_2022_1121" style="left: 8285px; top: 1175px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.4L</div>
+<div id="Koovapally_2022_124" style="left: 8415px; top: 1683px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">2.1L</div>
+<div id="Koovapally_2022_157" style="left: 11434px; top: 3208px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.5L</div>
+<div id="Koovapally_2022_81" style="left: 10806px; top: 2444px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3.6L</div>
+<div id="Ranni_2022_1101" style="left: 4972px; top: 10643px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">74K</div>
+<div id="Ranni_2022_1479" style="left: 4684px; top: 10347px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">72K</div>
+<div id="Ranni_2022_1750" style="left: 4764px; top: 10510px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">79K</div>
+<div id="Ranni_2023_1303" style="left: 4714px; top: 10347px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">8.3L</div>
+<div id="Ranni_2023_545" style="left: 4744px; top: 10347px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">1.6L</div>
+<div id="Ranni_2023_673" style="left: 4794px; top: 10510px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">93K</div>
+<div id="Ranni_2023_749" style="left: 4774px; top: 10347px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">60K</div>
+<div id="Ranni_2024_451" style="left: 5058px; top: 10877px;" class="iconYetTo" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">3L</div>
+
+
+<script>
+initialize();
+</script>
+
+</body>
+</html>
