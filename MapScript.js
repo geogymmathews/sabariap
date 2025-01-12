@@ -478,15 +478,15 @@ function openTraversePopup()
 
   function displayImageBasedOnFile()
   {
-    // Get the current file name
-    const fileName = window.location.pathname.split("/").pop();
     // Show or hide divs based on the file name
-    if (fileName === "index.html") {
+    if (isInLocalDirectory()) {
       document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
       document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
       document.getElementById("Google_FullImage").classList.add("hidden");
       document.getElementById("Google_SplitImages").classList.add("hidden");
-    } else if (fileName === "index2.html") {
+    } 
+	else 
+	{
       document.getElementById("Bhuvan_SplitImages").classList.remove("hidden");
       document.getElementById("Bhuvan_FullImage").classList.add("hidden");
       document.getElementById("Google_FullImage").classList.add("hidden");
