@@ -22,8 +22,8 @@
 		}
 		else
 		{
-			contextMainMenu.style.left = `30px`;
-			contextMainMenu.style.top = `30px`;
+			contextMainMenu.style.left = `100px`;
+			contextMainMenu.style.top = `100px`;
 			contextMainMenu.style.position = 'fixed';
 		}
 		contextMainMenu.style.display = 'block';
