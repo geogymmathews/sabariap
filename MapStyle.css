@@ -226,7 +226,7 @@
       cursor: pointer; /* Indicate it's clickable */
     }
 
-    .docDetailsPopup {
+    .settingPopup {
       display: none; /* Initially hidden */
       position: fixed;
       top: 100px;
@@ -239,18 +239,18 @@
       padding: 3px;
       border-radius: 8px;
     }
-    .docDetailsPopup table {
+    .settingPopup table {
       width: 100%;
       border-collapse: collapse;
     }
-    .docDetailsPopup table, .docDetailsPopup th, .docDetailsPopup td {
+    .settingPopup table, .docDetailsPopup th, .docDetailsPopup td {
       border: 1px solid #ddd;
     }
-    .docDetailsPopup th, .docDetailsPopup td {
+    .settingPopup th, .docDetailsPopup td {
       padding: 5px;
       text-align: left;
     }
-    .docDetailsPopup .close-btn {
+    .settingPopup .close-btn {
       display: block;
       margin-top: 10px;
       text-align: center;
@@ -261,6 +261,47 @@
       cursor: pointer;
       border-radius: 4px;
     }
+
+
+    .docDetailsPopup {
+      display: none; /* Initially hidden */
+      position: fixed;
+      top: 35%;
+      left: 20%;
+
+
+      transform: translate(-50%, -50%);
+      width: 500px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .docDetailsPopup table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .docDetailsPopup table, .docDetailsPopup th, .docDetailsPopup td {
+      border: 1px solid #ddd;
+    }
+    .docDetailsPopup th, .docDetailsPopup td {
+      padding: 4px;
+      text-align: left;
+    }
+    .docDetailsPopup .close-btn {
+      display: block;
+      margin-top: 5px;
+      text-align: center;
+      color: white;
+      background-color: #4CAF50;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
 
         /* Toggle container */
         .toggle-container {

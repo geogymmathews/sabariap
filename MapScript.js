@@ -232,7 +232,7 @@
 														"<th>Date Of Registration</th><td>"+selectedDoc.RegistrationDate+"</td></tr>"+
 														"<tr><th>Total Cents</th><td>"+selectedDoc.Cents+"</td>"+
 														"<th>Reg Amount</th><td>"+formatNumber(selectedDoc.RegAmount)+"</td></tr>"+
-														"<tr><th>Amount Per Cent</th><td>"+formatNumber(selectedDoc.AmountPerCent)+"</td><"+
+														"<tr><th>Amount Per Cent</th><td>"+formatNumber(selectedDoc.AmountPerCent)+"</td>"+
 														"<th>Distance</th><td>"+formatNumber(selectedDoc.Distance)+"</td></tr>"+
 														"<tr><th>Survey No</th><td>"+selectedDoc.SurveyNo+"</td>"+
 														"<th>Village</th><td>"+selectedDoc.Village+"</td></tr>"+
