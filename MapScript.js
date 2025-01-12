@@ -496,7 +496,7 @@ function openTraversePopup()
 
     function isInLocalDirectory() {
     const fileName = window.location.pathname.split("/").pop();
-	alert(fileName);
+	//alert(fileName);
     if (fileName === "indexInternet.html" || fileName === "indexInter.html")
 		return false;
 	else if (fileName === "indexLocal.html" || fileName === "indexLoc.html" )
