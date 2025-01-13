@@ -8,6 +8,90 @@
 	var clickMenuInProgress = false;
     var mouseOverEnabled = false;
 	var traverseIndex = 1;
+    let imageDisplayOption = "Bhuvan";
+    let imageSplitOption = getImageSplitOption();
+    // Get the image containers and the button
+    let bhuvanDivFull;
+    let googleDivFull;
+    let bhuvanDivSpit;
+    let googleDivSpit;
+
+
+	function getImageSplitOption() {
+    const fileName = window.location.pathname.split("/").pop();
+    if (fileName === "indexInternet.html")
+		return "Split";
+	else if (fileName === "indexLocal.html")
+		return "Full";
+    else
+		{
+		  const currentPath = window.location.href; // Get the current URL
+		  if (currentPath.includes("geogymmathews.github.io/sabariap/"))
+			  return "Split";
+		 else
+			 return "Full";
+
+		}
+    }
+	
+	function initializeBackgroundImage()
+	{
+      bhuvanDivFull = document.getElementById('Bhuvan_FullImage');
+      googleDivFull = document.getElementById('Google_FullImage');
+      bhuvanDivSpit = document.getElementById('Bhuvan_SplitImages');
+      googleDivSpit = document.getElementById('Google_SplitImages');
+
+		if (imageSplitOption === "Full")
+		{
+			bhuvanDivFull.className = 'visible1';
+			googleDivFull.className = 'hidden';
+			bhuvanDivSpit.className = 'hidden';
+			googleDivSpit.className = 'hidden';
+		}
+		else
+		{
+			bhuvanDivFull.className = 'hidden';
+			googleDivFull.className = 'hidden';
+			bhuvanDivSpit.className = 'visible2';
+			googleDivSpit.className = 'hidden';
+
+		}
+
+	}
+
+function toggleBackgroundImage()
+{
+    imageDisplayOption = imageDisplayOption === "Bhuvan" ? "Google" : "Bhuvan";
+    updateBackgroundDisplay();
+	const contextMainMenu = document.getElementById(ctxMainMenuID);
+    contextMainMenu.style.display = 'none';
+
+
+}
+
+
+    function updateBackgroundDisplay() 
+	{
+		bhuvanDivFull.className = 'hidden';
+		googleDivFull.className = 'hidden';
+		bhuvanDivSpit.className = 'hidden';
+		googleDivSpit.className = 'hidden';
+
+		if (imageSplitOption === "Full")
+		{
+		     if (imageDisplayOption === "Bhuvan") 
+				bhuvanDivFull.className = 'visible1';
+			 else
+				googleDivFull.className = 'visible1';
+		}
+		else
+		{
+		     if (imageDisplayOption === "Bhuvan") 
+				bhuvanDivSpit.className = 'visible2';
+			 else
+				googleDivSpit.className = 'visible2';
+		}
+    }
 
 
 	function openMainMenu(event) 
@@ -187,7 +271,7 @@
 	function initialize()
 	{
 	  displayDocumentsBasedOnSettings();
-  	  displayImageBasedOnFile();
+  	  initializeBackgroundImage();
 
 	  document.getElementById('totalCount').innerHTML = objectArray.length + 1;
 	}
@@ -317,46 +401,6 @@ const longitude = constant1 - ((xPixel + 13) / ( constant3  * 111000 * Math.cos(
 return longitude;
 }
 
-function toggleBackgroundImage()
-{
-	const contextMainMenu = document.getElementById(ctxMainMenuID);
-    contextMainMenu.style.display = 'none';
-
-    if (isInLocalDirectory()) 
-	{
-	  if (document.getElementById("Bhuvan_FullImage").className == "hidden" )
-	  {
-		  document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
-		  document.getElementById("Google_FullImage").classList.add("hidden");
-	  }
-	  else
-	  {
-		  document.getElementById("Bhuvan_FullImage").classList.add("hidden");
-		  document.getElementById("Google_FullImage").classList.remove("hidden");
-		
-	  }
-		  document.getElementById("Google_SplitImages").classList.add("hidden");
-		  document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
-
-    } 
-	else 
-	{
-	  if (document.getElementById("Bhuvan_SplitImages").className == "hidden" )
-	  {
-		  document.getElementById("Bhuvan_SplitImages").classList.remove("hidden");
-		  document.getElementById("Google_SplitImages").classList.add("hidden");
-	  }
-	  else
-	  {
-		  document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
-		  document.getElementById("Google_SplitImages").classList.remove("hidden");
-		
-	  }
-		  document.getElementById("Google_FullImage").classList.add("hidden");
-		  document.getElementById("Bhuvan_FullImage").classList.add("hidden");
-	}
-
-}
 
 function openGoogleMap(event)
 {
@@ -476,35 +520,91 @@ function openTraversePopup()
 	  hidePopup();
     }
 
-  function displayImageBasedOnFile()
-  {
-    // Show or hide divs based on the file name
-    if (isInLocalDirectory()) {
-      document.getElementById("Bhuvan_FullImage").classList.remove("hidden");
-      document.getElementById("Bhuvan_SplitImages").classList.add("hidden");
-      document.getElementById("Google_FullImage").classList.add("hidden");
-      document.getElementById("Google_SplitImages").classList.add("hidden");
+function toggleBackgroundImage2()
+{
+	const contextMainMenu = document.getElementById(ctxMainMenuID);
+    contextMainMenu.style.display = 'none';
+
+	const isFullImage = isInLocalDirectory();
+    if (isFullImage) 
+	{
+	  alert("Before Bhuvan_FullImage" + document.getElementById("Bhuvan_FullImage").className);
+	  alert("Before Google_FullImage" + document.getElementById("Google_FullImage").className);
+	  if (document.getElementById("Bhuvan_FullImage").className == "hidden" )
+	  {
+		  document.getElementById("Bhuvan_FullImage").className = "visible";
+		  document.getElementById("Google_FullImage").className = "hidden";
+	  }
+	  else
+	  {
+		  document.getElementById("Bhuvan_FullImage").className = "hidden";
+		  document.getElementById("Google_FullImage").className = "visible";
+		
+	  }
+		  alert("After Bhuvan_FullImage" + document.getElementById("Bhuvan_FullImage").className);
+		  alert("After Google_FullImage" + document.getElementById("Google_FullImage").className);
+		  document.getElementById("Google_SplitImages").className = "hidden";
+		  document.getElementById("Bhuvan_SplitImages").className = "hidden";
+
     } 
 	else 
 	{
-      document.getElementById("Bhuvan_SplitImages").classList.remove("hidden");
-      document.getElementById("Bhuvan_FullImage").classList.add("hidden");
-      document.getElementById("Google_FullImage").classList.add("hidden");
-      document.getElementById("Google_SplitImages").classList.add("hidden");
+	  if (document.getElementById("Bhuvan_SplitImages").className == "hidden" )
+	  {
+		  document.getElementById("Bhuvan_SplitImages").className = "visible";
+		  document.getElementById("Google_SplitImages").className = "hidden";
+	  }
+	  else
+	  {
+		  document.getElementById("Bhuvan_SplitImages").className = "hidden";
+		  document.getElementById("Google_SplitImages").className = "visible";
+		
+	  }
+		  document.getElementById("Google_FullImage").className = "hidden";
+		  document.getElementById("Bhuvan_FullImage").className = "hidden";
+	}
+
+}
+
+
+  function displayImageBasedOnFile()
+  {
+	const isFullImage = isInLocalDirectory();
+    if (isFullImage)     // Show or hide divs based on the file name
+	{
+      document.getElementById("Bhuvan_FullImage").className = "visible";
+      document.getElementById("Bhuvan_SplitImages").className = "hidden";
+      document.getElementById("Google_FullImage").className = "hidden";
+      document.getElementById("Google_SplitImages").className = "hidden";
+    } 
+	else 
+	{
+      document.getElementById("Bhuvan_SplitImages").className = "visible";
+      document.getElementById("Bhuvan_FullImage").className = "hidden";
+      document.getElementById("Google_FullImage").className = "hidden";
+      document.getElementById("Google_SplitImages").className = "hidden";
     }
+		  alert("Init Bhuvan_FullImage"   + document.getElementById("Bhuvan_FullImage").className);
+		  alert("Init Google_FullImage"   + document.getElementById("Google_FullImage").className);
+		  alert("Init Bhuvan_SplitImages" + document.getElementById("Bhuvan_SplitImages").className );
+		  alert("Init Google_SplitImages" + document.getElementById("Google_SplitImages").className );
+
    }
 
     function isInLocalDirectory() {
     const fileName = window.location.pathname.split("/").pop();
-	//alert(fileName);
-    if (fileName === "indexInternet.html" || fileName === "indexInter.html")
+    if (fileName === "indexInternet.html")
 		return false;
-	else if (fileName === "indexLocal.html" || fileName === "indexLoc.html" )
+	else if (fileName === "indexLocal.html")
 		return true;
     else
 		{
 		  const currentPath = window.location.href; // Get the current URL
-		  return currentPath.includes("geogymmathews.github.io/sabariap/");
+		  if (currentPath.includes("geogymmathews.github.io/sabariap/"))
+			  return false;
+		 else
+			 return true;
+
 		}
     }
 

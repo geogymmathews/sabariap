@@ -444,3 +444,9 @@
     .hidden {
       display: none;
     }
+    .visible1 {
+      display: block;
+    }
+    .visible2 {
+      display: grid;
+    }
