@@ -165,7 +165,7 @@ function toggleBackgroundImage()
 
 		const contextPlacesMenu = document.getElementById(ctxPlaceMenuID);
 		contextPlacesMenu.style.display = 'block';
-		let intX = parseInt((window.innerWidth / 2) - (contextPlacesMenu.offsetWidth / 2));
+		let intX = parseInt((window.innerWidth / 2) - ((contextPlacesMenu.offsetWidth / 2)+100));
 		let intY = parseInt((window.innerHeight / 2) - (contextPlacesMenu.offsetHeight / 2));
 		contextPlacesMenu.style.left = `${intX}px`;
 		contextPlacesMenu.style.top = `${intY}px`;
