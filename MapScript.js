@@ -19,7 +19,7 @@
 	var objectArray = [];
 
 	var myKy = 3;
-
+	var mypw="abcd";
 	
 	function initialize()
 	{
@@ -28,34 +28,58 @@
 	  displayDocumentsBasedOnSettings();
   	  initializeBackgroundImage();
 	  createImportantLocationTable();
-	  createMarkerPlaces();
-	  
+	  createMarkerPlaces();  
 	  document.getElementById('totalCount').innerHTML = objectArray.length + 1;
 	}
 
+	function loadKey()
+	{
+		if (isLocalEnvironment())
+			mypw = myFilekey ;
+		else
+			mypw = prompt()
+
+	}
 	function initializeArray()
 	{
-     objectArray = thirichakkukaArray(objectArray2);
-	 objectArray2 = [];
-	 locationArray = thirichakkukaArray(locationArray2);
-	 locationArray2 = [];
+		loadKey();
+		try
+		{
+			var decryptedLoc = decrypt(locationArrayString);
+			locationArray = JSON.parse(decryptedLoc);
+
+			var decryptedObj = decrypt(objectArrayString);
+			objectArray = JSON.parse(decryptedObj);		
+		}
+		catch (error)
+		{
+			document.body.style.display = 'none';
+			console.error('An error occurred while trying read the data:', error.message);
+
+		}
 
 	}
 	
+	function getImageSplitOption() 
+	{
+		var imageSplitOption = isLocalEnvironment() ? "Full" : "Split";
+		return imageSplitOption;
+	}
 	
-	function getImageSplitOption() {
-    const fileName = window.location.pathname.split("/").pop();
-    if (fileName === "indexInternet.html")
-		return "Split";
-	else if (fileName === "indexLocal.html")
-		return "Full";
-    else
+	function isLocalEnvironment() 
+	{
+		const fileName = window.location.pathname.split("/").pop();
+		if (fileName === "indexInternet.html")
+			return false;
+		else if (fileName === "indexLocal.html")
+			return true;
+		else
 		{
 		  const currentPath = window.location.href; // Get the current URL
 		  if (currentPath.includes("geogymmathews.github.io/sabariap/"))
-			  return "Split";
+			  return false;
 		 else
-			 return "Full";
+			 return true;
 
 		}
     }
@@ -679,6 +703,19 @@ function generateDivsForSelDocsMarker() {
 	selectedDocumentsMarker.innerHTML = divHTML;
 
 }
+
+function encrypt(text)
+{
+  var encrypted = CryptoJS.AES.encrypt(text, mypw);
+  return encrypted.toString();
+}
+
+function decrypt(text)
+{
+  var decrypted = CryptoJS.AES.decrypt(text, mypw);
+  return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
 
 function mattukaArray(array) {
     return array.map(item => {
