@@ -107,9 +107,7 @@ function toggleBackgroundImage()
 			contextMainMenu.style.position = 'absolute';
 		}
 		else
-		{
-
-			
+		{		
 			const contextMenuButton = document.getElementById("idContextMenuButton");
 			let intX = (window.innerWidth/2) - 100;
 			let intY = (window.innerHeight/2) - 100;
