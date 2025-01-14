@@ -127,7 +127,7 @@
       background-color: white;
       border: 1px solid #ccc;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-      z-index: 1000;
+      z-index: 999;
     }
     .context-menu-item {
       padding: 4px;
@@ -235,7 +235,7 @@
       background-color: white;
       border: 1px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
+      z-index: 999;
       padding: 3px;
       border-radius: 8px;
     }
@@ -272,7 +272,7 @@
       background-color: white;
       border: 1px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
+      z-index: 999;
       padding: 10px;
       border-radius: 8px;
     }
@@ -358,7 +358,7 @@
       border: 1px solid #ddd;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
-      z-index: 1000;
+      z-index: 999;
     }
     .popupTraverse-header {
       font-size: 16px;
@@ -450,3 +450,47 @@
     .visible2 {
       display: grid;
     }
+        .progress-dialog {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-dialog.active {
+            display: flex; /* Show the modal when active */
+        }
+
+        .progress-dialog-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Spinner animation */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #007BFF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }

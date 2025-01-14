@@ -61,12 +61,13 @@
 
 function toggleBackgroundImage()
 {
-    imageDisplayOption = imageDisplayOption === "Bhuvan" ? "Google" : "Bhuvan";
-    updateBackgroundDisplay();
 	const contextMainMenu = document.getElementById(ctxMainMenuID);
     contextMainMenu.style.display = 'none';
-
-
+    const progressDialog = document.getElementById('progressDialog');
+    progressDialog.classList.add('active');
+	imageDisplayOption = imageDisplayOption === "Bhuvan" ? "Google" : "Bhuvan";
+    updateBackgroundDisplay();
+	progressDialog.classList.remove('active');
 }
 
 
@@ -100,6 +101,7 @@ function toggleBackgroundImage()
 		if (event != null)
 		event.preventDefault();
 		const contextMainMenu = document.getElementById(ctxMainMenuID);
+		contextMainMenu.style.display = 'block';
 		if (event != null)
 		{
 			contextMainMenu.style.left = `${event.pageX}px`;
@@ -109,13 +111,12 @@ function toggleBackgroundImage()
 		else
 		{		
 			const contextMenuButton = document.getElementById("idContextMenuButton");
-			let intX = (window.innerWidth/2) - 100;
-			let intY = (window.innerHeight/2) - 100;
+			let intX = window.innerWidth - ( parseInt(document.getElementById('idContextMainMenu').offsetWidth) + 50 );
+			let intY = 50;//window.innerHeigh, parseInt(document.getElementById('idContextMainMenu').offsetHeight)
 		    contextMainMenu.style.left = `${intX}px`;
 			contextMainMenu.style.top = `${intY}px`;
 			contextMainMenu.style.position = 'fixed';
 		}
-		contextMainMenu.style.display = 'block';
 	}
 	function showClickMenu( event)
 	{
@@ -137,9 +138,15 @@ function toggleBackgroundImage()
 		contextMainMenu.style.display = 'none';
 
 		const contextPlacesMenu = document.getElementById(ctxPlaceMenuID);
-		contextPlacesMenu.style.left = `${event.pageX}px`;
-		contextPlacesMenu.style.top = `${event.pageY}px`;
 		contextPlacesMenu.style.display = 'block';
+		let intX = parseInt((window.innerWidth / 2) - (contextPlacesMenu.offsetWidth / 2));
+		let intY = parseInt((window.innerHeight / 2) - (contextPlacesMenu.offsetHeight / 2));
+		contextPlacesMenu.style.left = `${intX}px`;
+		contextPlacesMenu.style.top = `${intY}px`;
+		contextPlacesMenu.style.position = 'fixed';
+
+	
+	
 	}
 
 	function openSettings(event) 
@@ -273,9 +280,13 @@ function toggleBackgroundImage()
 
 	function initialize()
 	{
+
+	  generateDivsForSelDocsMarker();
 	  displayDocumentsBasedOnSettings();
   	  initializeBackgroundImage();
-
+	  createImportantLocationTable();
+	  createMarkerPlaces();
+	  
 	  document.getElementById('totalCount').innerHTML = objectArray.length + 1;
 	}
 	function convertDate(dateString)
@@ -307,12 +318,11 @@ function toggleBackgroundImage()
 		  const dateToCheck = convertDate(record.RegistrationDate);
 		  const amountPercent = parseFloat(record.AmountPerCent) || 0;
 		  /*
-			if (amountPercent >= percentRangeStart && amountPercent < percentRangeEnd) 
-				console.log("AmountPercent"+amountPercent+" is within the range:"+percentRangeStart+"--"+percentRangeEnd);
+			if (amountPercent < percentRangeStart || amountPercent > percentRangeEnd) 
+				console.log("AmountPercent"+amountPercent+" is outside the range:"+percentRangeStart+"--"+percentRangeEnd);
 			else 
-				console.log("AmountPercent"+amountPercent+" is ouside the range:"+percentRangeStart+"--"+percentRangeEnd);
-*/
-
+				console.log("AmountPercent"+amountPercent+" is inside the range:"+percentRangeStart+"--"+percentRangeEnd);
+			*/
 		  if(rejectedDocSettings == 'none' && domClass == 'iconRejected')
 			domElement.style.display = 'none';
 		  else if(selectedDocSettings == 'none' && domClass == 'iconSelected')
@@ -323,7 +333,7 @@ function toggleBackgroundImage()
 			domElement.style.display = 'none';
 		  else if(Doc5KSettings == 'none' && parseFloat(record.Distance) > 5000)
 			domElement.style.display = 'none';
-		  else if(amountPercent >= percentRangeStart && amountPercent < percentRangeEnd)
+		  else if(amountPercent < percentRangeStart || amountPercent > percentRangeEnd)
 			domElement.style.display = 'none';
 		  else
 			{
@@ -535,96 +545,167 @@ function openTraversePopup()
 	  hidePopup();
     }
 
-function toggleBackgroundImage2()
-{
-	const contextMainMenu = document.getElementById(ctxMainMenuID);
-    contextMainMenu.style.display = 'none';
-
-	const isFullImage = isInLocalDirectory();
-    if (isFullImage) 
-	{
-	  alert("Before Bhuvan_FullImage" + document.getElementById("Bhuvan_FullImage").className);
-	  alert("Before Google_FullImage" + document.getElementById("Google_FullImage").className);
-	  if (document.getElementById("Bhuvan_FullImage").className == "hidden" )
-	  {
-		  document.getElementById("Bhuvan_FullImage").className = "visible";
-		  document.getElementById("Google_FullImage").className = "hidden";
-	  }
-	  else
-	  {
-		  document.getElementById("Bhuvan_FullImage").className = "hidden";
-		  document.getElementById("Google_FullImage").className = "visible";
-		
-	  }
-		  alert("After Bhuvan_FullImage" + document.getElementById("Bhuvan_FullImage").className);
-		  alert("After Google_FullImage" + document.getElementById("Google_FullImage").className);
-		  document.getElementById("Google_SplitImages").className = "hidden";
-		  document.getElementById("Bhuvan_SplitImages").className = "hidden";
-
-    } 
-	else 
-	{
-	  if (document.getElementById("Bhuvan_SplitImages").className == "hidden" )
-	  {
-		  document.getElementById("Bhuvan_SplitImages").className = "visible";
-		  document.getElementById("Google_SplitImages").className = "hidden";
-	  }
-	  else
-	  {
-		  document.getElementById("Bhuvan_SplitImages").className = "hidden";
-		  document.getElementById("Google_SplitImages").className = "visible";
-		
-	  }
-		  document.getElementById("Google_FullImage").className = "hidden";
-		  document.getElementById("Bhuvan_FullImage").className = "hidden";
-	}
-
-}
-
-
-  function displayImageBasedOnFile()
-  {
-	const isFullImage = isInLocalDirectory();
-    if (isFullImage)     // Show or hide divs based on the file name
-	{
-      document.getElementById("Bhuvan_FullImage").className = "visible";
-      document.getElementById("Bhuvan_SplitImages").className = "hidden";
-      document.getElementById("Google_FullImage").className = "hidden";
-      document.getElementById("Google_SplitImages").className = "hidden";
-    } 
-	else 
-	{
-      document.getElementById("Bhuvan_SplitImages").className = "visible";
-      document.getElementById("Bhuvan_FullImage").className = "hidden";
-      document.getElementById("Google_FullImage").className = "hidden";
-      document.getElementById("Google_SplitImages").className = "hidden";
-    }
-		  alert("Init Bhuvan_FullImage"   + document.getElementById("Bhuvan_FullImage").className);
-		  alert("Init Google_FullImage"   + document.getElementById("Google_FullImage").className);
-		  alert("Init Bhuvan_SplitImages" + document.getElementById("Bhuvan_SplitImages").className );
-		  alert("Init Google_SplitImages" + document.getElementById("Google_SplitImages").className );
-
-   }
-
-    function isInLocalDirectory() {
-    const fileName = window.location.pathname.split("/").pop();
-    if (fileName === "indexInternet.html")
-		return false;
-	else if (fileName === "indexLocal.html")
-		return true;
-    else
-		{
-		  const currentPath = window.location.href; // Get the current URL
-		  if (currentPath.includes("geogymmathews.github.io/sabariap/"))
-			  return false;
-		 else
-			 return true;
-
-		}
-    }
 
 const htmlFolder = "Docs/";
 const pdfFolder = "Docs/ConsolidatedData/CertifiedCopy/";
+
+
+function encrypt(text, shift) {
+    let encryptedText = '';
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        // Check if the character is a letter
+        if (char.match(/[a-zA-Z]/)) {
+            let startCode = (char === char.toUpperCase()) ? 65 : 97; // ASCII for 'A' or 'a'
+            let code = (char.charCodeAt(0) - startCode + shift) % 26 + startCode;
+            encryptedText += String.fromCharCode(code);
+        } else {
+            // If it's not a letter, just add the character as it is
+            encryptedText += char;
+        }
+    }
+    return encryptedText;
+}
+
+function decrypt(text, shift) {
+    let decryptedText = '';
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        // Check if the character is a letter
+        if (char.match(/[a-zA-Z]/)) {
+            let startCode = (char === char.toUpperCase()) ? 65 : 97; // ASCII for 'A' or 'a'
+            let code = (char.charCodeAt(0) - startCode - shift + 26) % 26 + startCode;
+            decryptedText += String.fromCharCode(code);
+        } else {
+            // If it's not a letter, just add the character as it is
+            decryptedText += char;
+        }
+    }
+    return decryptedText;
+}
+
+    function createImportantLocationTable() 
+	{
+      const table = document.getElementById("importantLocationTable");
+	  var row;
+      for (let i = 0; i < locationArray.length; i++) 
+	  {
+			if (i === 0) 
+			{
+			  const headerRow = document.createElement("tr");
+			  const headerCell = document.createElement("td");
+			  headerCell.colSpan = 6;
+			  headerCell.classList.add("highLight");
+			  headerCell.innerHTML = `<div onclick="navigateTo(${locationArray[i].LocationX}, ${locationArray[i].LocationY})" class="context-menu-item"><nobr>${locationArray[i].LocationName}</nobr></div>`;
+			  headerRow.appendChild(headerCell);
+			  table.appendChild(headerRow);
+			  continue;		  
+			} 
+			else if (i % 4 === 1) 
+			{
+			  row = document.createElement("tr");
+			}
+			const cell = document.createElement("td");
+			cell.classList.add("highLight");
+			cell.innerHTML = `<div onclick="navigateTo(${locationArray[i].LocationX}, ${locationArray[i].LocationY})" class="context-menu-item">${locationArray[i].LocationName}</div>`;
+			row.appendChild(cell);
+			if (i % 4 === 0 || i === locationArray.length - 1 )
+			{
+			  table.appendChild(row);
+			}
+      }
+    }
+	function createMarkerPlaces() 
+	{
+	  const container = document.getElementById("idContextMarkerPlaces");
+
+	  locationArray.forEach(record => 
+									  {
+										const div = document.createElement("div");
+										div.style.left = `${record.LocationX}px`;
+										div.style.top = `${record.LocationY}px`;
+										div.className = "overlay-text";
+										div.textContent = record.LocationName;
+										container.appendChild(div);
+									  });
+
+	}
+	function getTextForAmount(amountPerCent) {
+		if (amountPerCent < 100000) {
+			return Math.floor(amountPerCent / 1000) + "K";
+		} else if (amountPerCent < 1000000) {
+			return (Math.floor(amountPerCent / 100000 * 10) / 10) + "L";
+		} else if (amountPerCent > 1000000) {
+			return Math.floor(amountPerCent / 100000) + "L";
+		}
+		return amountPerCent.toString();
+	}
+function getStatusIcon(status) {
+    switch (status) {
+        case 'Selected-T2':
+        case 'Selected':
+            return 'iconSelected';
+        case 'Rejected':
+            return 'iconRejected';
+        default:
+            return 'iconYetTo';
+    }
+}
+
+function generateDivsForSelDocsMarker() {
+	const selectedDocumentsMarker = document.getElementById("selectedDocumentsMarker");
+
+    const divHTML =  objectArray.map(item => {
+        const amountText = item.AmountPerCent ? getTextForAmount(item.AmountPerCent) : 'N/A';
+        const iconClass = getStatusIcon(item.Status);
+        return `<div id="${item.DocKey}" style="left: ${item.xPixel}px; top: ${item.yPixel}px;" class="${iconClass}" onclick="showPopup()" onmouseover="showPopup()" onmouseout="hidePopup()">${amountText}</div>`;
+    }).join('');
+
+	selectedDocumentsMarker.innerHTML = divHTML;
+
+}
+
+// getStatusIcon('Selected-T2')
+	
+	const locationArray = [
+      { "LocationX": "6005", "LocationY": "6013", "LocationName": "Centre" },
+      { "LocationX": "4497", "LocationY": "1494", "LocationName": "Valakkayam" },
+      { "LocationX": "7334", "LocationY": "1137", "LocationName": "Govt HSS Vizhikkathodu" },
+      { "LocationX": "922", "LocationY": "2686", "LocationName": "Mooleplavu Jn" },
+      { "LocationX": "1660", "LocationY": "2532", "LocationName": "Cheruvallippalli" },
+      { "LocationX": "3090", "LocationY": "2007", "LocationName": "Elvis House" },
+      { "LocationX": "3888", "LocationY": "2388", "LocationName": "Pazhayidam" },
+      { "LocationX": "6195", "LocationY": "2275", "LocationName": "Chenappadi" },
+      { "LocationX": "654", "LocationY": "3773", "LocationName": "Manimala Bus Stand" },
+      { "LocationX": "8407", "LocationY": "3563", "LocationName": "Hindustan Pharmacy College" },
+      { "LocationX": "5814", "LocationY": "3984", "LocationName": "Marottichuvadu" },
+      { "LocationX": "2651", "LocationY": "4836", "LocationName": "Karikkattoor" },
+      { "LocationX": "3080", "LocationY": "5382", "LocationName": "Anjilimoodu" },
+      { "LocationX": "3099", "LocationY": "5898", "LocationName": "Karimpanakkulam Kurishu" },
+      { "LocationX": "10809", "LocationY": "4698", "LocationName": "Orumkal Bridge" },
+      { "LocationX": "6000", "LocationY": "4573", "LocationName": "Permpattikunnel Kuttarappalli Road" },
+      { "LocationX": "5316", "LocationY": "4741", "LocationName": "Myladupara" },
+      { "LocationX": "4835", "LocationY": "5082", "LocationName": "Karikkattoor Center" },
+      { "LocationX": "5112", "LocationY": "5208", "LocationName": "Kurishupalli" },
+      { "LocationX": "5419", "LocationY": "5459", "LocationName": "Paruthippara" },
+      { "LocationX": "11570", "LocationY": "5166", "LocationName": "Orumkal Kadavu Tea Stall" },
+      { "LocationX": "1529", "LocationY": "6342", "LocationName": "Pulikkallu" },
+      { "LocationX": "5913", "LocationY": "6484", "LocationName": "Charuvalil Jn" },
+      { "LocationX": "5447", "LocationY": "6775", "LocationName": "Charuvelil Gate" },
+      { "LocationX": "6334", "LocationY": "6865", "LocationName": "Koovakkavu" },
+      { "LocationX": "4520", "LocationY": "7252", "LocationName": "Ponthanpuzha Jn" },
+      { "LocationX": "4713", "LocationY": "7371", "LocationName": "Ponthanpuzha Forest" },
+      { "LocationX": "6737", "LocationY": "7344", "LocationName": "Mukkada Jn" },
+      { "LocationX": "6664", "LocationY": "7555", "LocationName": "Mukkada Rubber Board" },
+      { "LocationX": "9680", "LocationY": "7150", "LocationName": "Karithodu" },
+      { "LocationX": "10678", "LocationY": "7100", "LocationName": "Kanakappalam" },
+      { "LocationX": "2568", "LocationY": "8118", "LocationName": "Alapra" },
+      { "LocationX": "6315", "LocationY": "8691", "LocationName": "Plachery" },
+      { "LocationX": "8131", "LocationY": "9682", "LocationName": "Chethakkal Village Office" },
+      { "LocationX": "6610", "LocationY": "10889", "LocationName": "Bethel Marthoma Church" },
+      { "LocationX": "4990", "LocationY": "11106", "LocationName": "Valiyakavu PO" },
+      { "LocationX": "6620", "LocationY": "11183", "LocationName": "Sabari Hotel" },
+    ];
 
 
 const objectArray = [
