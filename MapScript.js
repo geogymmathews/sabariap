@@ -108,8 +108,13 @@ function toggleBackgroundImage()
 		}
 		else
 		{
-			contextMainMenu.style.left = `10px`;
-			contextMainMenu.style.top = `10px`;
+
+			
+			const contextMenuButton = document.getElementById("idContextMenuButton");
+			let intX = (window.innerWidth/2) - 100;
+			let intY = (window.innerHeight/2) - 100;
+		    contextMainMenu.style.left = `${intX}px`;
+			contextMainMenu.style.top = `${intY}px`;
 			contextMainMenu.style.position = 'fixed';
 		}
 		contextMainMenu.style.display = 'block';
@@ -289,17 +294,27 @@ function toggleBackgroundImage()
       const selectedDocSettings = document.getElementById('toggleSelectedDoc').checked ? 'none' : 'inline';
       const yetToDocSettings	= document.getElementById('toggleYetToDoc').checked ? 'none' : 'inline';
       const Doc5KSettings	    = document.getElementById('toggle5KDoc').checked ? 'none' : 'inline';
-      const perCentLimit        = document.getElementById('centAmountSelector').value;
+	  const percentRangeStart = parseFloat(document.getElementById('centAmountSelectorFrom').value) || 0;
+	  const percentRangeEnd = parseFloat(document.getElementById('centAmountSelectorTo').value) || 0;
       const YearWindowSettings  = document.getElementById('toggle3YearWindow').checked ? 'none' : 'inline';
 	  const startDate = new Date('2021-09-08');
 	  const endDate = new Date('2024-09-09');
       let visibleDocs = 0;
 
 		objectArray.forEach(record => {
-  		  const docKey = record.DocKey; 
+  		  
+		  const docKey = record.DocKey; 
 		  const domElement = document.getElementById(docKey); 	  
 		  const domClass = domElement.className;
 		  const dateToCheck = convertDate(record.RegistrationDate);
+		  const amountPercent = parseFloat(record.AmountPerCent) || 0;
+		  /*
+			if (amountPercent >= percentRangeStart && amountPercent < percentRangeEnd) 
+				console.log("AmountPercent"+amountPercent+" is within the range:"+percentRangeStart+"--"+percentRangeEnd);
+			else 
+				console.log("AmountPercent"+amountPercent+" is ouside the range:"+percentRangeStart+"--"+percentRangeEnd);
+*/
+
 		  if(rejectedDocSettings == 'none' && domClass == 'iconRejected')
 			domElement.style.display = 'none';
 		  else if(selectedDocSettings == 'none' && domClass == 'iconSelected')
@@ -310,7 +325,7 @@ function toggleBackgroundImage()
 			domElement.style.display = 'none';
 		  else if(Doc5KSettings == 'none' && parseFloat(record.Distance) > 5000)
 			domElement.style.display = 'none';
-		  else if(parseFloat(record.AmountPerCent) < perCentLimit)
+		  else if(amountPercent >= percentRangeStart && amountPercent < percentRangeEnd)
 			domElement.style.display = 'none';
 		  else
 			{
@@ -359,7 +374,6 @@ function toggleBackgroundImage()
 														"<th>Remark</th><td>"+selectedDoc.Remark+"</td></tr>"+
 														"</table>";
       document.getElementById('docDetailsPopup').style.display = 'block';
-      document.getElementById('htmlFileContent').src = htmlFolder+(selectedDoc.FileURL);
     }
  
 	function hidePopup() 
@@ -425,6 +439,9 @@ function openGoogleMap(event)
 
 function openTraversePopup()
 {
+	  const contextMainMenu = document.getElementById(ctxMainMenuID);
+	  contextMainMenu.style.display = 'none';
+
 	  objectArray.sort((a, b) => {
 	  const ySortDiff = parseInt(a.ySort) - parseInt(b.ySort);
 	  if (ySortDiff !== 0) {
@@ -506,8 +523,8 @@ function openTraversePopup()
 	   let intY = parseInt(record.yPixel) + 40;
 	   const mousePointer = document.getElementById('mousePointer');
 	   mousePointer.style = `left: ${intX}px; top: ${intY}px; display: inline;`;
-	   const toggleTravesalShowDocuments = document.getElementById('toggleTravesalShowDocuments');
-	   if( toggleTravesalShowDocuments.checked )
+	   const toggleTraversalShowDocuments = document.getElementById('toggleTraversalShowDocuments');
+	   if( toggleTraversalShowDocuments.checked )
 		   renderDocDetailsPopup(record.DocKey);
 	}
 
