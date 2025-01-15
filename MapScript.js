@@ -356,12 +356,6 @@ function toggleBackgroundImage()
 		  const domClass = domElement.className;
 		  const dateToCheck = convertDate(record.RegistrationDate);
 		  const amountPercent = parseFloat(record.AmountPerCent) || 0;
-		  /*
-			if (amountPercent < percentRangeStart || amountPercent > percentRangeEnd) 
-				console.log("AmountPercent"+amountPercent+" is outside the range:"+percentRangeStart+"--"+percentRangeEnd);
-			else 
-				console.log("AmountPercent"+amountPercent+" is inside the range:"+percentRangeStart+"--"+percentRangeEnd);
-			*/
 		  if(rejectedDocSettings == 'none' && domClass == 'iconRejected')
 			domElement.style.display = 'none';
 		  else if(selectedDocSettings == 'none' && domClass == 'iconSelected')
@@ -584,10 +578,15 @@ function openTraversePopup()
 	  hidePopup();
     }
 
+rootFolder = "C:/Geogy/Java/Kerala/geogy/Data/";
+//rootFolder = "./Docs/";
 
+const htmlFolder = rootFolder;
+const pdfFolder = rootFolder+"ConsolidatedData/CertifiedCopy/";
+/*
 const htmlFolder = "Docs/";
 const pdfFolder = "Docs/ConsolidatedData/CertifiedCopy/";
-
+*/
 
 function mattuka(text) {
     let mariyaText = '';
@@ -747,3 +746,174 @@ function thirichakkukaArray(array) {
     });
 }
 
+function createDocumentTable() {
+  // Create a new window for the popup
+  const popup = window.open("", "", "width=1000,height=800,scrollbars=yes");
+
+  // Generate the table HTML
+  let tableHTML = `
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0, 'number', event)">#</th>
+          <th onclick="sortTable(1, 'text', event)">Key</th>
+          <th onclick="sortTable(2, 'date', event)">Date</th>
+          <th onclick="sortTable(3, 'float', event)">Cents</th>
+          <th onclick="sortTable(4, 'amount', event)">RegAmt</th>
+          <th onclick="sortTable(5, 'amount', event)">Amt/Cent</th>
+          <th>Map</th>
+          <th>Cert.Copy</th>
+          <th onclick="sortTable(7, 'text', event)">Dist</th>
+          <th onclick="sortTable(8, 'text', event)">Survey</th>
+          <th onclick="sortTable(9, 'text', event)">Village</th>
+          <th onclick="sortTable(10, 'text', event)">App#</th>
+          <th onclick="sortTable(11, 'text', event)">Stat</th>
+          <th onclick="sortTable(12, 'text', event)">Remark</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Populate table rows from objectArray
+  objectArray.forEach((item, index) => {
+    const docKey = item.DocKey;
+    const domElement = document.getElementById(docKey);
+    const trVisibility = domElement?.style.display === "none" ? 'style="display: none;"' : "";
+
+    tableHTML += `
+      <tr ${trVisibility}>
+        <td>${index + 1}</td>
+        <td>${item.DocKey}</td>
+        <td>${item.RegistrationDate}</td>
+        <td>${item.Cents}</td>
+        <td>${item.RegAmount}</td>
+        <td>${item.AmountPerCent}</td>
+        <td>
+          <button onclick="window.opener.goToDocument(${index + 1})" title="Go to Map">
+            <span style="font-size:14px; color: blue;">&#9966;</span>
+          </button>
+        </td>
+		<td>
+		  ${
+			item.CCApplNumber
+			  ? '<a href="' + pdfFolder + item.PdfURL + '" target="_blank" title="Open Certified Copy">' +
+				'<span style="font-size:18px; color: red;">&#128196;</span>' +
+				'</a>'
+			  : ''
+		  }
+        </td>
+        <td>${item.Distance}</td>
+        <td>${item.SurveyNo}</td>
+        <td>${item.Village}</td>
+        <td>${item.CCApplNumber}</td>
+        <td>${item.Status}</td>
+        <td>${item.Remark}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += `
+      </tbody>
+    </table>
+  `;
+
+  // Write the table into the popup window
+  popup.document.write(`
+    <html>
+      <head>
+        <title>Sortable Data Table</title>
+        <script>
+          let sortDirections = Array(14).fill(false);
+          let sortStack = [];
+
+          function parseValue(value, type) {
+            switch (type) {
+              case "number":
+                return parseInt(value) || 0;
+              case "float":
+                return parseFloat(value) || 0.0;
+              case "amount":
+                return parseFloat(value.replace(/[^0-9.-]+/g, "")) || 0.0;
+              case "date":
+                const [day, month, year] = value.split("/").map(Number);
+                return new Date(year, month - 1, day).getTime() || 0;
+              case "text":
+              default:
+                return value.toLowerCase();
+            }
+          }
+
+          function sortTable(columnIndex, type, event) {
+            const table = document.getElementById("dataTable");
+            const rows = Array.from(table.rows).slice(1);
+            const shiftKey = event.shiftKey;
+
+            if (!shiftKey) sortStack = [];
+
+            const direction = sortDirections[columnIndex] ? 1 : -1;
+            sortDirections[columnIndex] = !sortDirections[columnIndex];
+
+            const sortCriteria = { columnIndex, type, direction };
+            if (!sortStack.some(criterion => criterion.columnIndex === columnIndex)) {
+              sortStack.push(sortCriteria);
+            }
+
+            rows.sort((rowA, rowB) => {
+              for (const { columnIndex, type, direction } of sortStack) {
+                const cellA = rowA.cells[columnIndex].innerText.trim();
+                const cellB = rowB.cells[columnIndex].innerText.trim();
+
+                const valueA = parseValue(cellA, type);
+                const valueB = parseValue(cellB, type);
+
+                if (valueA > valueB) return direction;
+                if (valueA < valueB) return -direction;
+              }
+              return 0;
+            });
+
+            const tbody = table.querySelector("tbody");
+            rows.forEach((row, index) => {
+              row.style.backgroundColor = index % 2 === 0 ? "#f9f9f9" : "#ffffff";
+              tbody.appendChild(row);
+            });
+          }
+        </script>
+        <style>
+          table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 12px; 
+          }
+          th, td { 
+            border: 1px solid black; 
+            padding: 4px; 
+            text-align: left; 
+            cursor: pointer;
+          }
+          th { 
+            background-color: #f2f2f2; 
+          }
+          th:hover {
+            background-color: #ddd;
+          }
+          tr:nth-child(even) {
+            background-color: #f9f9f9;
+          }
+          tr:nth-child(odd) {
+            background-color: #ffffff;
+          }
+          a { 
+            text-decoration: none; 
+          }
+        </style>
+      </head>
+      <body>
+        ${tableHTML}
+      </body>
+    </html>
+  `);
+
+  // Close the document to ensure rendering
+  popup.document.close();
+}
