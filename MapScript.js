@@ -17,6 +17,7 @@
     let googleDivSpit;
 	var locationArray = [];
 	var objectArray = [];
+	var htmlArray = [];
 
 	var myKy = 3;
 	var mypw="abcd";
@@ -50,6 +51,10 @@
 
 			var decryptedObj = decrypt(objectArrayString);
 			objectArray = JSON.parse(decryptedObj);		
+
+			var decryptedHTML = decrypt(htmlArrayString);
+			htmlArray = JSON.parse(decryptedHTML);		
+
 		}
 		catch (error)
 		{
@@ -395,7 +400,7 @@ function toggleBackgroundImage()
 	  var pdfURLString = "";
 	  if (selectedDoc.PdfURL != "" )
 	  {
-		  pdfURLString = "<th>PDF Link</th><td>"+  "<a target='_new' href='"+pdfFolder+(selectedDoc.PdfURL)+"'> <i class='fa fa-file-pdf-o' style='font-size:24px;color:red'></i></a>"+"</td></tr>";
+		  pdfURLString = "<th>PDF Link</th><td>"+  " <i onclick=\"openPDF('"+selectedDoc.PdfURL+"')\" class='fa fa-file-pdf-o' style='font-size:24px;color:red'></i>"+"</td></tr>";
 	  }
 
 	  document.getElementById('contentArea').innerHTML=	"<table> "+ 
@@ -407,7 +412,7 @@ function toggleBackgroundImage()
 														"<th>Distance</th><td>"+formatNumber(selectedDoc.Distance)+"</td></tr>"+
 														"<tr><th>Survey No</th><td>"+selectedDoc.SurveyNo+"</td>"+
 														"<th>Village</th><td>"+selectedDoc.Village+"</td></tr>"+
-														"<tr><th>Document Link</th><td>"+  "<a target='_new' href='"+htmlFolder+(selectedDoc.FileURL)+"'><i class='fa fa-table' style='font-size:24px;color:red'></i></a>"+"</td>"+
+														"<tr><th>Document Link</th><td>"+"<i onclick=\"openHTML('"+selectedDoc.FileURL+"')\" class='fa fa-table' style='font-size:24px;color:red'></i>"+"</td>"+
 		  												pdfURLString +
 														"<tr><th>Google Map Link</th><td>"+  "<a target='_new' href='https://www.google.com/maps/search/?api=1&query="+selectedDoc.GeoLocation+"'><span style='font-size:24px;'>&#127757;</span></a>"+"</td>"+
 														"<th>CC Application Number</th><td>"+selectedDoc.CCApplNumber+"</td></tr>"+
@@ -416,7 +421,43 @@ function toggleBackgroundImage()
 														"</table>";
       document.getElementById('docDetailsPopup').style.display = 'block';
     }
- 
+	function openPDF(url)
+	{
+		var pdfURL = "PDF/"+url;
+		console.log(pdfURL);
+  	    const popup = window.open(pdfURL);
+	}
+	function openHTML(url)
+	{
+		const urlKey = url.replace(".html", "");
+	    const selectedHTML = htmlArray.find(htmlFile => htmlFile.FileKey === urlKey);
+
+		var decryptedHTMLFile = decrypt(selectedHTML.Content);
+		var htmlWithStyle = "<html><head><style>        body {font-family: Arial, sans-serif;}        table {border-collapse: collapse;width: 100%;margin-bottom: 20px;}        th, td {border: 1px solid #000;padding: 8px;text-align: center;}        th {background-color: #f2f2f2;}        .titleHeading_result_main {font-weight: bold;text-align: left;padding: 10px 0;}        .alignLabels {text-align: left;}</style></head>";
+
+		let newHTMLHeader = `
+		<html><head>
+		   <title>`+url+`</title>
+		   <style>
+			body {font-family: Arial, sans-serif;}
+			table {border-collapse: collapse; width: 100%; margin-bottom: 20px;}
+			th, td {border: 1px solid #000; padding: 8px; text-align: center;}
+			th {background-color: #f2f2f2;}
+			.titleHeading_result_main {font-weight: bold; text-align: left; padding: 10px 0;}
+			.alignLabels {text-align: left;}
+		</style></head><body><br>`;
+
+		// Replace the specific string
+		decryptedHTMLFile = decryptedHTMLFile.replace(
+			'<html><body><br>',
+			newHTMLHeader
+		);
+
+  	    const popup = window.open("","");
+        popup.document.write(decryptedHTMLFile);
+	
+	}
+
 	function hidePopup() 
 	{
 		if (mouseOverEnabled == false && event.type == "mouseout")
