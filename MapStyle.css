@@ -494,3 +494,16 @@
                 transform: rotate(360deg);
             }
         }
+
+        .map-container {
+            position: relative;
+            width: 12000px;
+            height: 12000px;
+        }
+        .map-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }

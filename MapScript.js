@@ -15,6 +15,8 @@
     let googleDivFull;
     let bhuvanDivSpit;
     let googleDivSpit;
+	let Bhuvan_GoogleCombinedFull;
+
 	var locationArray = [];
 	var objectArray = [];
 	var htmlArray = [];
@@ -95,19 +97,20 @@
       googleDivFull = document.getElementById('Google_FullImage');
       bhuvanDivSpit = document.getElementById('Bhuvan_SplitImages');
       googleDivSpit = document.getElementById('Google_SplitImages');
+	  Bhuvan_GoogleCombinedFull = document.getElementById('Bhuvan_GoogleCombinedFullImages');
 
 		if (imageSplitOption === "Full")
 		{
 			bhuvanDivFull.className = 'visible1';
-			googleDivFull.className = 'hidden';
 			bhuvanDivSpit.className = 'hidden';
+			googleDivFull.className = 'hidden';
 			googleDivSpit.className = 'hidden';
 		}
 		else
 		{
 			bhuvanDivFull.className = 'hidden';
-			googleDivFull.className = 'hidden';
 			bhuvanDivSpit.className = 'visible2';
+			googleDivFull.className = 'hidden';
 			googleDivSpit.className = 'hidden';
 
 		}
@@ -120,7 +123,13 @@ function toggleBackgroundImage()
     contextMainMenu.style.display = 'none';
     const progressDialog = document.getElementById('progressDialog');
     progressDialog.classList.add('active');
-	imageDisplayOption = imageDisplayOption === "Bhuvan" ? "Google" : "Bhuvan";
+	if (imageDisplayOption == "Bhuvan")
+	 imageDisplayOption = "Google";
+	else if (imageDisplayOption == "Google")
+	 imageDisplayOption = "Combined";
+	else
+	 imageDisplayOption = "Bhuvan";
+
     updateBackgroundDisplay();
 	progressDialog.classList.remove('active');
 }
@@ -132,20 +141,25 @@ function toggleBackgroundImage()
 		googleDivFull.className = 'hidden';
 		bhuvanDivSpit.className = 'hidden';
 		googleDivSpit.className = 'hidden';
+		Bhuvan_GoogleCombinedFull.className = 'hidden';
 
 		if (imageSplitOption === "Full")
 		{
 		     if (imageDisplayOption === "Bhuvan") 
 				bhuvanDivFull.className = 'visible1';
-			 else
+			 else if (imageDisplayOption == "Google")
 				googleDivFull.className = 'visible1';
+			 else if (imageDisplayOption == "Combined")
+				Bhuvan_GoogleCombinedFull.className = 'map-container';
 		}
 		else
 		{
 		     if (imageDisplayOption === "Bhuvan") 
 				bhuvanDivSpit.className = 'visible2';
-			 else
+			 else if (imageDisplayOption == "Google")
 				googleDivSpit.className = 'visible2';
+			 else if (imageDisplayOption == "Combined")
+				Bhuvan_GoogleCombinedFull.className = 'map-container';
 		}
     }
 
