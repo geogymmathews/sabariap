@@ -84,7 +84,14 @@
     }
 
 /* Line style */
-        .horizontalLineSmall {
+        .horizontalPoligonLine {
+		  position: absolute;
+		  height: 10px;
+		  transform-origin: left center;
+		}
+
+
+		.horizontalLineSmall {
             position: absolute;
 			left: 2px;
             width: 12000px; /* Length of the line (end X - start X) */
@@ -180,58 +187,199 @@
 			/*--transform: translate(-50%, -50%);*/
 		}
 
-    .iconSelected {
+.iconSelected {
+  position: absolute;
+  display: inline-block;
+  color: black; 
+  font-size: 14px; 
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 0 4px orange, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+  cursor: pointer; 
+  border: 1px dotted brown;
+
+  /* Circle */
+  width: 40px;
+  height: 40px;
+  line-height: 40px; 
+  border-radius: 50%; 
+
+  background-color: rgba(50, 205, 50);
+}
+
+
+
+    .iconSelectedLow {
       position: absolute;
       display: inline-block;
-	  width: 40px;
-	  height: 40px;
-	  background-color: rgba(0,255,0,.3);
-	  color: red; /* White text */
-	  font-size: 14px; /* Text size */
+	  color: black; 
+	  font-size: 14px; 
 	  font-weight: bold;
 	  text-align: center;
-	  line-height: 40px; /* Center text vertically */
-	  border-radius: 50%; /* Make it circular */
-	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional shadow */
-      cursor: pointer; /* Indicate it's clickable */
+	  box-shadow: 0 0 0 3px yellow, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; 
+      border: 1px dotted brown;
+
+	  /* round Box */
+	  line-height: 30px;  /*Center text vertically */
+      width: 40px;
+      height: 30px;
+      border-radius: 10px;
+
+	  background-color: rgba(80, 223, 155,0.5);
     }
+
+    .iconSelectedPast {
+      position: absolute;
+      display: inline-block;
+	  color: black; 
+	  font-size: 14px; 
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 3px rgb(197, 100, 255), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; 
+      border: 1px dotted brown;
+
+	  /* Square */
+	  line-height: 30px;  /*Center text vertically */
+      width: 30px;
+      height: 30px;
+
+	  background-color: rgba(127, 255, 0);
+    }
+
     .iconRejected {
       position: absolute;
       display: inline-block;
-	  width: 40px;
-	  height: 40px;
-	  background-color: rgba(255,0,0,.3);
-	  color: red; /* White text */
+	  color: black; /* White text */
 	  font-size: 14px; /* Text size */
 	  font-weight: bold;
 	  text-align: center;
-	  line-height: 40px; /* Center text vertically */
-	  border-radius: 50%; /* Make it circular */
-	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional shadow */
+	  box-shadow: 0 0 0 2px rgb(210, 215, 91), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
       cursor: pointer; /* Indicate it's clickable */
-    }
+      border: 1px dotted brown;
+		
+	  /* round Box */
+	  line-height: 30px;  /*Center text vertically */
+      width: 40px;
+      height: 30px;
+      border-radius: 10px;
+
+	  background-color: rgba(255, 105, 180);
+	}
+
+
     .iconYetTo {
       position: absolute;
       display: inline-block;
-	  width: 40px;
-	  height: 40px;
-	  background-color: rgba(0,0,255,.3);
-	  color: red; /* White text */
+	  color: black; /* White text */
 	  font-size: 14px; /* Text size */
 	  font-weight: bold;
 	  text-align: center;
-	  line-height: 40px; /* Center text vertically */
-	  border-radius: 50%; /* Make it circular */
-	  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Optional shadow */
+	  box-shadow: 0 0 0 2px rgb(109, 133, 219), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
       cursor: pointer; /* Indicate it's clickable */
-    }
+      border: 1px dotted brown;
+
+	  /* Oval */
+	  line-height: 30px; /* Center text vertically */
+      width: 50px;
+      height: 30px;
+      border-radius: 50%;
+
+	  background-color: rgba(255, 223, 0);
+	}
+
+    .iconOtherVillage {
+      position: absolute;
+      display: inline-block;
+	  color: black; /* White text */
+	  font-size: 14px; /* Text size */
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 2px rgb(246, 144, 89), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* round Box */
+	  line-height: 30px;  /*Center text vertically */
+      width: 40px;
+      height: 30px;
+      border-radius: 10px;
+
+	  background-color: rgb(252, 221, 162);
+	}
+
+
+    .iconPrime {
+      position: absolute;
+      display: inline-block;
+	  color: black; /* White text */
+	  font-size: 14px; /* Text size */
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 4px blue, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* round Square */
+	  line-height: 35px;  /*Center text vertically */
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+
+	  background-color: rgba(255,165,0);
+	}
+
+    .iconNotRequired {
+      position: absolute;
+      display: inline-block;
+	  color: black; /* White text */
+	  font-size: 14px; /* Text size */
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 2px rgb(249, 73, 119), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* round Box */
+	  line-height: 30px;  /*Center text vertically */
+      width: 40px;
+      height: 30px;
+      border-radius: 10px;
+
+	  background-color:  rgb(239, 240, 246);
+	}
+
+
+
+
+    .iconNA{
+      position: absolute;
+      display: inline-block;
+	  color: black; /* White text */
+	  font-size: 14px; /* Text size */
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 2px rgb(252, 119, 188), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* rounded Square */
+	  line-height: 30px;  /*Center text vertically */
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+
+	  background-color: rgb(159, 178, 180);
+	}
+
 
     .settingPopup {
       display: none; /* Initially hidden */
       position: fixed;
       top: 100px;
       left: 500px;
-      width: 400px;
+      width: 600px;
       background-color: white;
       border: 1px solid #ccc;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -414,6 +562,27 @@
     .popupTraverse-buttons .prev {
       background: #007bff;
     }
+    /* Style the label as a button */
+    .toggleTraverse-label {
+      width: 50px;
+      height: 50px;
+      background-color: #eee;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+      font-size: 16px;
+      color: red;
+      transition: transform 0.3s;
+
+    }
+
+    .toggleTraverse-label:hover {
+      background-color: #ddd;
+    }
     .popupTraverse-buttons .next {
       background: #28a745;
     }
@@ -507,3 +676,150 @@
             width: 100%;
             height: 100%;
         }
+
+        /* Popup styles */
+        .selectionPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+			width: 800px;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        .selectionPopup textarea {
+            width: 80%;
+            height: 100px;
+            padding: 10px;
+        }
+        .selectionPopup button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        /* Selection Popup Background overlay */
+        .selectionOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+    .quickInfo {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      margin-left: 15px;
+      background-color: #fff8c6;
+      border: 1px solid #ccc;
+      padding: 10px;
+      width: 160px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 100;
+    }
+
+    /* Create the small arrow (triangle) */
+    .quickInfo::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: -10px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent #ccc transparent transparent;
+    }
+
+    .quickInfo::after {
+      content: "";
+      position: absolute;
+      top: 21px;
+      left: -8px;
+      border-width: 4px;
+      border-style: solid;
+      border-color: transparent #fff8c6 transparent transparent;
+    }
+
+	#idSettings th {
+    width: 30%;
+    white-space: normal; /* Allow text wrapping */
+    word-wrap: break-word; /* Break long words if needed */
+    text-align: left; /* Optional: make text aligned left */
+    padding: 5px; /* Optional: add some spacing */
+    vertical-align: top; /* Optional: align text to top */
+}
+
+#idSettings td {
+    padding: 5px;
+}
+
+    #divLegend {
+      position: absolute;
+    }
+
+    #legendsIcon th,
+    #legendsIcon td {
+      border: 1px solid #ccc;
+      padding: 10px 14px;
+	  color: rgb(34, 179, 222); 
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+	  font-weight: bold;
+    }
+    #legendsIcon th {
+	  color: black; 
+	}
+
+    #legendsIcon th {
+      text-align: left;
+      background-color: #f2f2f2;
+    }
+
+    #legendsIcon td.icon-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+    }
+    .error-message {
+      color: red;
+      font-weight: bold;
+      font-size: 1.2rem;
+      animation: blink 1s steps(2, start) infinite;
+      display: none; /* Hidden initially */
+    }
+
+    @keyframes blink {
+      to {
+        visibility: hidden;
+      }
+    }
+
+
+	 .iconDblClkMarker{
+      position: absolute;
+      display: inline-block;
+	  color: black; /* White text */
+	  font-size: 14px; /* Text size */
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 2px rgb(252, 119, 188), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* rounded Square */
+	  line-height: 30px;  /*Center text vertically */
+      width: 50px;
+      height: 30px;
+      border-radius: 5px;
+
+	  background-color: rgb(159, 178, 180);
+	}

@@ -3,6 +3,8 @@
 <head> 
 <script src="sample/pow.js"></script>
 <script src="data.js"></script>
+<script src="data2.js"></script>
+
 <script src="MapScript.js"></script>
 <link rel="stylesheet" href="MapStyle.css">
 <meta charset="ISO-8859-1">
@@ -12,14 +14,14 @@
 <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/aes.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
-
-
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 </head>
 
 
-<body  oncontextmenu="openMainMenu(event)" ondblclick="showClickMenu(event)" onclick="hideContextMenu()" >
+<body  oncontextmenu="openMainMenu(event)" ondblclick="handleDoubleClick(event)" onclick="hideContextMenu()" >
+
+
+
 <div style="left:5200px; top:600px;" class="overlay-Header"><nobr>Survey Numbers in 5k Radius </nobr></div>
 
 <button onclick="openMainMenu(null)" class="floating-button" id="idContextMenuButton"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
@@ -27,7 +29,8 @@
 <div id="Bhuvan_FullImage" class="hidden">
 <img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" >
 </div>
-
+<div id="divLegend" style="width: 500px; left: 11500px; top: 11600px;">
+</div>
 
 
 <div id="Bhuvan_GoogleCombinedFullImages" class="hidden">
@@ -102,9 +105,12 @@
 <tr> 
 	<td class="highLight"><div onclick="toggleBackgroundImage()" class="context-menu-item" align="left"><nobr>Change Background Map</nobr></div></td> 
 </tr>
-
 <tr> 
 	<td class="highLight"><div onclick="createDocumentTable()" class="context-menu-item" align="left"><nobr>Open Table with Document Details</nobr></div></td> 
+</tr>
+
+<tr> 
+	<td class="highLight"><div onclick="openSelectionPopup()" class="context-menu-item" align="left"><nobr>Display Documents Based on Input</nobr></div></td> 
 </tr>
 
 
@@ -124,6 +130,9 @@
 <tr> 
 	<td class="highLight"><div onclick="openGoogleMap(event)" class="context-menu-item" align="left"><nobr>Open Google Map</nobr></div></td> 
 </tr>
+<tr> 
+	<td class="highLight"><div onclick="gotoCoordinates()" class="context-menu-item" align="left"><nobr>Goto Coordinates</nobr></div></td>
+</tr> 
 </table></div>
 <!-- 5K Icon -->
 
@@ -161,9 +170,7 @@
 
 <tr>
  <th>Show Document Details on Hover</th>
-
  <td>
-    
 	<label class="toggle-container">
         <input type="checkbox" class="toggle-checkbox" id="toggleSwitch" onchange="onToggleValueChange()">
         <div class="toggle-track">
@@ -174,153 +181,289 @@
 </tr>
 
 <tr>
- <th>Hide Rejected Documents</th>
+ <th>Hide Documents:</th>
  <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" id="toggleRejectedDoc" checked onchange="displayDocumentsBasedOnSettings()">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
+
+	<table id="iconTable">
+
+
+			<tr>
+			 <th>Selected</th>
+			 <td>				
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" id="toggleSelectedDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			 <th>Selected Low Docs </th>
+			 <td>				
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" id="toggleSelectedLowDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			</tr>
+
+
+			<tr>
+			 <th>Prime Location</th>
+			 <td>
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" id="togglePrimeDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			 
+			 <th>Selected In Past 3Yr</th>
+			 <td>				
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" id="toggleSelectedPastDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			 
+			 </tr>
+
+			<tr>
+			  <td colspan="4" style="border-top: 2px solid #999; height: 5px;"></td>
+			</tr>
+
+
+			<tr>
+			 <th>Rejected</th>
+			 <td>			
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleRejectedDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+
+			 <th>Unclassified</th>
+			 <td>
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			</tr>
+
+			<tr>
+			 <th>Other Villages</th>
+			 <td>
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleOtherVillagesDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			<th>Not Required</th>
+			 <td>
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleNRDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+
+			</tr>
+
+			<tr>
+			  <td colspan="4" style="border-top: 2px solid #999; height: 5px;"></td>
+			</tr>
+			
+			<tr>
+			 <th>Outside 3-Year Window</th>
+			 <td>
+				<label class="toggle-container">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggle3YearWindow" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			 <th>5K KM Distance</th>
+			 <td>	
+				<label class="toggle-container">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggle5KDoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			</tr>
+
+			<tr>
+			  <td colspan="4" style="border-top: 2px solid #999; height: 5px;"></td>
+			</tr>
+			
+			<tr>
+			 <th>Not Applicable</th>
+			 <td>
+				<label class="toggle-container" onChange="updateToggleColor()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleNADoc" onchange="displayDocumentsBasedOnSettings()">
+					<div class="toggle-track">
+						<div class="toggle-handle"></div>
+					</div>
+				</label>
+			 </td> 
+			</tr>
+	</table>
+
+
+	
+
  </td> 
 </tr>
 
-<tr>
- <th>Hide Unclassified Documents</th>
- <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
- </td> 
-</tr>
 
-<tr>
- <th>Hide Selected Documents</th>
- <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" id="toggleSelectedDoc" onchange="displayDocumentsBasedOnSettings()">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
- </td> 
-</tr>
-
-<tr>
- <th>Hide Documents Outside 3-Year Window</th>
- <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" checked id="toggle3YearWindow" onchange="displayDocumentsBasedOnSettings()">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
- </td> 
-</tr>
-
-<tr>
- <th>Hide Documents above 5K km Distance</th>
- <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" checked id="toggle5KDoc" onchange="displayDocumentsBasedOnSettings()">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
- </td> 
-</tr>
 
 <tr>
  <th>Show documents with cent value between</th>
 
  <td>
- <table><tr><td>
+ <table>
+ <tr>
+ 
+ <td>
 	<label class="toggle-container">
-	<select id="centAmountSelectorFrom" onchange = "displayDocumentsBasedOnSettings()">
-	<option value="0" selected>0K</option>
-	<option value="60000">60K</option>
-	<option value="65000">65K</option>
-	<option value="70000">70K</option>
-	<option value="75000">75K</option>
-	<option value="80000">80K</option>
-	<option value="85000">85K</option>
-	<option value="90000">90K</option>
-	<option value="95000">95K</option>
-	<option value="100000">1L</option>
-	<option value="120000">1.2L</option>
-	<option value="140000">1.4L</option>
-	<option value="160000">1.6L</option>
-	<option value="180000">1.8L</option>
-	<option value="200000">2L</option>
-	<option value="300000">3L</option>
-	<option value="400000">4L</option>
-	<option value="500000">5L</option>
-	<option value="600000">6L</option>
-	<option value="700000">7L</option>
-	<option value="800000">8L</option>
-	<option value="900000">9L</option>
-	<option value="1000000">10L</option>
-	<option value="10000000">1Cr</option>
+		<select id="centAmountSelectorFrom" onchange = "displayDocumentsBasedOnSettings()">
+			<option value="0" selected>0K</option>
+			<option value="60000">60K</option>
+			<option value="65000">65K</option>
+			<option value="70000">70K</option>
+			<option value="75000">75K</option>
+			<option value="80000">80K</option>
+			<option value="85000">85K</option>
+			<option value="90000">90K</option>
+			<option value="95000">95K</option>
+			<option value="100000">1L</option>
+			<option value="120000">1.2L</option>
+			<option value="140000">1.4L</option>
+			<option value="160000">1.6L</option>
+			<option value="180000">1.8L</option>
+			<option value="200000">2L</option>
+			<option value="300000">3L</option>
+			<option value="400000">4L</option>
+			<option value="500000">5L</option>
+			<option value="600000">6L</option>
+			<option value="700000">7L</option>
+			<option value="800000">8L</option>
+			<option value="900000">9L</option>
+			<option value="1000000">10L</option>
+			<option value="10000000">1Cr</option>
+		</select>
+    </label>
 </td>
+
 <td>
 	<label class="toggle-container">
-	<select selected="60000" id="centAmountSelectorTo" onchange = "displayDocumentsBasedOnSettings()">
-	<option value="0">0K</option>
-	<option value="60000">60K</option>
-	<option value="65000">65K</option>
-	<option value="70000">70K</option>
-	<option value="75000">75K</option>
-	<option value="80000">80K</option>
-	<option value="85000">85K</option>
-	<option value="90000">90K</option>
-	<option value="95000">95K</option>
-	<option value="100000">1L</option>
-	<option value="120000">1.2L</option>
-	<option value="140000">1.4L</option>
-	<option value="160000">1.6L</option>
-	<option value="180000">1.8L</option>
-	<option value="200000">2L</option>
-	<option value="300000">3L</option>
-	<option value="400000">4L</option>
-	<option value="500000">5L</option>
-	<option value="600000">6L</option>
-	<option value="700000">7L</option>
-	<option value="800000">8L</option>
-	<option value="900000">9L</option>
-	<option value="1000000">10L</option>
-	<option value="10000000" selected>1Cr</option>
-</td>
-</tr></table>
-	</select>
+		<select selected="60000" id="centAmountSelectorTo" onchange = "displayDocumentsBasedOnSettings()">
+			<option value="0">0K</option>
+			<option value="60000">60K</option>
+			<option value="65000">65K</option>
+			<option value="70000">70K</option>
+			<option value="75000">75K</option>
+			<option value="80000">80K</option>
+			<option value="85000">85K</option>
+			<option value="90000">90K</option>
+			<option value="95000">95K</option>
+			<option value="100000">1L</option>
+			<option value="120000">1.2L</option>
+			<option value="140000">1.4L</option>
+			<option value="160000">1.6L</option>
+			<option value="180000">1.8L</option>
+			<option value="200000">2L</option>
+			<option value="300000">3L</option>
+			<option value="400000">4L</option>
+			<option value="500000">5L</option>
+			<option value="600000">6L</option>
+			<option value="700000">7L</option>
+			<option value="800000">8L</option>
+			<option value="900000">9L</option>
+			<option value="1000000">10L</option>
+			<option value="10000000" selected>1Cr</option>
+		</select>
     </label>
+</td>
+</tr>
+</table>
  </td> 
 </tr>
 
 
 <tr>
- <th>On Traversal:Show Document Details</th>
+ <td colspan=2>
+	<table border=1>
+		 <th>On Traversal:Show Document Details</th>
+		 <td>
+			
+			<label class="toggle-container">
+				<input type="checkbox" class="toggle-checkbox" checked id="toggleTraversalShowDocuments">
+				<div class="toggle-track">
+					<div class="toggle-handle"></div>
+				</div>
+			</label>
+		 </td>
+
+		 <th>Show Survey Sumbers</th>
+		 <td>
+			<label class="toggle-container">
+				<input type="checkbox" class="toggle-checkbox" id="toggleSurveyNoLables" onchange="displaySurveyLables()">
+				<div class="toggle-track">
+					<div class="toggle-handle"></div>
+				</div>
+			</label>
+		 </td>
+	</table>
+ </td> 
+</tr>
+
+
+<tr>
+ <th>Automatic Traversal</th>
  <td>
-    
-	<label class="toggle-container">
-        <input type="checkbox" class="toggle-checkbox" checked id="toggleTraversalShowDocuments">
-        <div class="toggle-track">
-            <div class="toggle-handle"></div>
-        </div>
-    </label>
+	 <table>
+	 <tr>
+	  <td width ="25%" ><input type="number" id="waitSeconds" maxlength="2" step="1" min="1" max="99" value="3" title="Enter an integer"/></td>
+	  <td width ="50%" align="right"> <label for="idDisplayedDocs">Displayed Docs :  </label></td>
+	  <td width ="25%"> <div type="number" id="idDisplayedDocs"></div></td>
+	</tr>
+	</table>
  </td> 
 </tr>
 
 <tr>
 <td colspan="2" align="center">
+<table width="50px" ><tr><td>
     <button class="close-btn" onclick="hideSettings()">Close Setting</button>
+	</td><td>
+<!-- Select All Icon -->
+	<i class="fa fa-check-square" 
+   title="Select All" 
+   style="cursor: pointer; margin-right: 15px; font-size: 20px; color: green;" 
+   onclick="setAllToggleCheckBoxes(true)"></i>
+	</td><td>
+<!-- Deselect All Icon -->
+<i class="fa fa-square" 
+   title="Deselect All" 
+   style="cursor: pointer; font-size: 20px; color: red;" 
+   onclick="setAllToggleCheckBoxes(false)"></i>
+	</td></tr></table>
+</div>
 </td>
 </tr>
 </table></div>
@@ -369,14 +512,38 @@
       <label for="visibleDocs">Total Documents Visible : </label>
       <label id="visibleDocs"> </label>
     </div>
+    <div id="noMoreDocsError" class="error-message">End of Docs!</div>
+
     <div class="popupTraverse-buttons">
       <button class="prev" onclick="handlePrev()">Prev</button>
+
+	  <input type="checkbox" id="toggleCheckbox" style="display: none">
+	  <label for="toggleCheckbox" class="toggleTraverse-label" id="toggleLabel" title="Manual">
+		<i class="fa fa-hand-paper-o icon" id="toggleIcon"></i>
+	  </label>
+
       <button class="next" onclick="handleNext()">Next</button>
     </div>
   </div>
 
 <!-- Menu for Selected places-->
 <div id="selectedDocumentsMarker">
+</div>
+
+<!-- Double Click Marker-->
+<div id="doubleClickMarker" style="display: none">
+</div>
+
+<!-- Selection Overlay -->
+<div class="selectionOverlay" id="selectionOverlay"></div>
+
+<!-- Selection Popup -->
+<div class="selectionPopup" id="selectionPopup">
+    <h3>Enter Your Text</h3>
+    <textarea id="popupText"></textarea>
+    <br>
+    <button onclick="showBasedOnInput()">Submit</button>
+    <button onclick="closeSelectionPopup()">Cancel</button>
 </div>
 
 
