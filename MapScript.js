@@ -154,20 +154,13 @@
 	
 	function isLocalEnvironment() 
 	{
-		const fileName = window.location.pathname.split("/").pop();
-		if (fileName === "indexInternet.html")
-			return false;
-		else if (fileName === "indexLocal.html")
-			return true;
-		else
-		{
+
 		  const currentPath = window.location.href; // Get the current URL
 		  if (currentPath.includes("geogymmathews.github.io/sabariap/"))
 			  return false;
 		 else
 			 return true;
 
-		}
     }
 	
 	function initializeBackgroundImage()
@@ -444,6 +437,7 @@ function toggleBackgroundImage()
 
       const rejectedDocSettings = document.getElementById('toggleRejectedDoc').checked ? 'none' : 'inline';
       const selectedDocSettings = document.getElementById('toggleSelectedDoc').checked ? 'none' : 'inline';
+      const selectedNewDocSettings = document.getElementById('toggleSelectedNewDoc').checked ? 'none' : 'inline';
       const selectedLowDocSettings = document.getElementById('toggleSelectedLowDoc').checked ? 'none' : 'inline';
       const selectedPastDocSettings = document.getElementById('toggleSelectedPastDoc').checked ? 'none' : 'inline';
       const yetToDocSettings	= document.getElementById('toggleYetToDoc').checked ? 'none' : 'inline';
@@ -461,7 +455,6 @@ function toggleBackgroundImage()
 	  const startDate = new Date('2021-09-08');
 	  const endDate = new Date('2024-09-09');
       let visibleDocs = 0;
-
 		objectArray.forEach((record, index) => {
 		  const docKey = record.DocKey; 
 		  const domElement = document.getElementById(docKey); 	  
@@ -471,6 +464,8 @@ function toggleBackgroundImage()
 		  if(rejectedDocSettings == 'none' && domClass == 'iconRejected')
 			domElement.style.display = 'none';
 		  else if(selectedDocSettings == 'none' && domClass == 'iconSelected')
+			domElement.style.display = 'none';
+		  else if(selectedNewDocSettings == 'none' && domClass == 'iconSelectedNew')
 			domElement.style.display = 'none';
 		  else if(selectedLowDocSettings == 'none' && domClass == 'iconSelectedLow')
 			domElement.style.display = 'none';
@@ -556,7 +551,12 @@ function toggleBackgroundImage()
     }
 	function openPDF(url)
 	{
-		var pdfURL = "PDF/"+url;
+		var pdfURL;
+		if(isLocalEnvironment())
+			pdfURL = "C:/Geogy/Java/Kerala/geogy/Data/ConsolidatedData/CertifiedCopy/"+url;
+		else
+			pdfURL = "PDF/"+url;
+
 		console.log(pdfURL);
   	    const popup = window.open(pdfURL);
 	}
@@ -566,6 +566,8 @@ function toggleBackgroundImage()
 	    const selectedHTML = htmlArray.find(htmlFile => htmlFile.FileKey === urlKey);
 
 		var decryptedHTMLFile = decrypt(selectedHTML.Content);
+		decryptedHTMLFile = decryptedHTMLFile.replace("Claimant", "Buyer").replace("Executant", "Seller");
+
 		var htmlWithStyle = "<html><head><style>        body {font-family: Arial, sans-serif;}        table {border-collapse: collapse;width: 100%;margin-bottom: 20px;}        th, td {border: 1px solid #000;padding: 8px;text-align: center;}        th {background-color: #f2f2f2;}        .titleHeading_result_main {font-weight: bold;text-align: left;padding: 10px 0;}        .alignLabels {text-align: left;}</style></head>";
 
 		let newHTMLHeader = `
@@ -914,6 +916,8 @@ function getStatusIcon(status)
         case 'Selected-T2':
         case 'Selected':
             return 'iconSelected';
+        case 'SelectedNew':
+            return 'iconSelectedNew';
         case 'SelectedLow':
             return 'iconSelectedLow';
         case 'SelectedPast':
@@ -1022,9 +1026,14 @@ function createDocumentTable() {
 
   objectArray.forEach((item, index) => {
     const docKey = item.DocKey;
-    const domElement = window.opener?.document.getElementById(docKey);
-    const trVisibility = domElement?.style.display === "none" ? 'style="display: none;"' : "";
-    if (domElement?.style.display !== "none") srNo++;
+    const domElement = document.getElementById(docKey);
+	let trVisibility = "";
+	if (!domElement || domElement.style.display === "none") 
+	  trVisibility = 'style="display: none;"';
+	else
+	  srNo++;
+
+//	window.console.log("Doc Key:-"+docKey+",  "+trVisibility);
 
     tableHTML += `
       <tr ${trVisibility}>
@@ -1234,6 +1243,7 @@ function createDocumentTable() {
 					['toggleRejectedDoc', 'iconRejected'],
 					['toggleRejectedDoc','iconRejected'],
 					['toggleSelectedDoc','iconSelected'],
+					['toggleSelectedNewDoc','iconSelectedNew'],
 					['toggleSelectedLowDoc','iconSelectedLow'],
 					['toggleSelectedPastDoc','iconSelectedPast'],
 					['toggleYetToDoc','iconYetTo'],
@@ -1249,18 +1259,6 @@ function updateToggleColor()
 	legends.forEach(([toggleId, iconClass]) => {
 	  setToggleColor(toggleId, iconClass);
 	});
-
-/*
-	setToggleColor('toggleRejectedDoc','iconRejected');
-	setToggleColor('toggleSelectedDoc','iconSelected');
-	setToggleColor('toggleSelectedLowDoc','iconSelectedLow');
-	setToggleColor('toggleSelectedPastDoc','iconSelectedPast');
-	setToggleColor('toggleYetToDoc','iconYetTo');
-	setToggleColor('toggleNADoc','iconNA');
-	setToggleColor('toggleNRDoc','iconNotRequired');
-	setToggleColor('togglePrimeDoc','iconPrime');
-	setToggleColor('toggleOtherVillagesDoc','iconOtherVillage');
-*/
 }
 function setAllToggleCheckBoxes(checkValue) 
 {
@@ -1333,7 +1331,7 @@ function createLegendsTable()
     ['iconSelectedPast', '9.9K', 'Past Selection', 'iconPrime', '9.9K', 'Prime'],
     ['iconYetTo', '9.9K', 'Yet to Confirm', 'iconOtherVillage', '9.9K', 'Other Village'],
     ['iconRejected', '9.9K', 'Rejected', 'iconNotRequired', '9.9K', 'Not Required'],
-    ['iconNA', '9.9K', 'Not Applicable', '', '', '']
+    ['iconNA', '9.9K', 'Not Applicable', 'iconSelectedNew', '9.9K', 'Selected New']
   ];
 
   const table = document.createElement('table');
@@ -1383,6 +1381,7 @@ function createLegendsTable()
 function applyRandomColorsToLegendIcons() {
   const iconClassMap = {
     iconSelected: 'Selected',
+    iconSelectedNew: 'Selected New',
     iconSelectedLow: 'Low Priority Selected',
     iconSelectedPast: 'Past Selection',
     iconPrime: 'Prime',

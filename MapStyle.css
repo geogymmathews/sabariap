@@ -207,6 +207,26 @@
   background-color: rgba(50, 205, 50);
 }
 
+.iconSelectedNew {
+  position: absolute;
+  display: inline-block;
+  color: black; 
+  font-size: 14px; 
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 0 4px black, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+  cursor: pointer; 
+  border: 1px dotted brown;
+
+  /* round Box */
+  line-height: 30px;  /*Center text vertically */
+  width: 40px;
+  height: 30px;
+  border-radius: 10px; 
+
+  background-color: rgba(50, 205, 50);
+}
+
 
 
     .iconSelectedLow {
