@@ -1,6 +1,7 @@
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
+<meta charset="UTF-8">
 <script src="sample/pow.js"></script>
 <script src="data.js"></script>
 <script src="data2.js"></script>
@@ -27,9 +28,9 @@
 <button onclick="openMainMenu(null)" class="floating-button" id="idContextMenuButton"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
 
 <div id="Bhuvan_FullImage" class="hidden">
-<img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="1" class="image" class="hidden">
+<img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="3" class="image" class="hidden">
 </div>
-<div id="divLegend" style="width: 500px; left: 11500px; top: 11600px;">
+<div id="divLegend" style="width: 500px; left: 11300px; top: 11500px;">
 </div>
 
 
@@ -82,14 +83,25 @@
 
 <div class="circle3K"></div>
 <div class="circle5K"></div>
+<div id="circleSlider" class="hidden"></div>
 
-<div class="horizontalLineSmall" style = "top: 2820px;"></div>
-<div class="horizontalLineBig" style = "top: 5999px;"></div>
-<div class="horizontalLineSmall" style = "top: 9181px;"></div>
-
+<!--
 <div class="verticalLineSmall"   style = "left: 2820px;"></div>
-<div class="verticalLineBig"   style = "left: 5999px;"></div>
+<div class="horizontalLineSmall" style = "top: 2820px;"></div>
+<div class="horizontalLineSmall" style = "top: 9181px;"></div>
 <div class="verticalLineSmall"   style = "left: 9181px;"></div>
+-->
+
+
+<div class="verticalLineBig"   style = "left: 3000px;"></div>
+<div class="horizontalLineBig" style = "top: 3000px;"></div>
+<div class="horizontalLineBig" style = "top: 9000px;"></div>
+<div class="verticalLineBig"   style = "left: 9000px;"></div>
+
+
+<div class="horizontalLineBig" style = "top: 5999px;"></div>
+<div class="verticalLineBig"   style = "left: 5999px;"></div>
+
 <div id="diaganalLine" class="diagonalLeft"></div>
 
 
@@ -104,6 +116,9 @@
 </tr>
 <tr> 
 	<td class="highLight"><div onclick="toggleBackgroundImage()" class="context-menu-item" align="left"><nobr>Change Background Map</nobr></div></td> 
+</tr>
+<tr> 
+	<td class="highLight"><div onclick="openCircleSettingPopup()" class="context-menu-item" align="left"><nobr>Open Circle Settings</nobr></div></td> 
 </tr>
 <tr> 
 	<td class="highLight"><div onclick="createDocumentTable()" class="context-menu-item" align="left"><nobr>Open Table with Document Details</nobr></div></td> 
@@ -271,7 +286,7 @@
 			 <th>Unclassified</th>
 			 <td>
 				<label class="toggle-container" onChange="updateToggleColor()">
-					<input type="checkbox" class="toggle-checkbox" checked id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
+					<input type="checkbox" class="toggle-checkbox" id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
 					<div class="toggle-track">
 						<div class="toggle-handle"></div>
 					</div>
@@ -279,16 +294,7 @@
 			 </td> 
 			</tr>
 
-			<tr>
-			 <th>Other Villages</th>
-			 <td>
-				<label class="toggle-container" onChange="updateToggleColor()">
-					<input type="checkbox" class="toggle-checkbox" checked id="toggleOtherVillagesDoc" onchange="displayDocumentsBasedOnSettings()">
-					<div class="toggle-track">
-						<div class="toggle-handle"></div>
-					</div>
-				</label>
-			 </td> 
+			<tr> 
 			<th>Not Required</th>
 			 <td>
 				<label class="toggle-container" onChange="updateToggleColor()">
@@ -326,21 +332,6 @@
 			 </td> 
 			</tr>
 
-			<tr>
-			  <td colspan="4" style="border-top: 2px solid #999; height: 5px;"></td>
-			</tr>
-			
-			<tr>
-			 <th>Not Applicable</th>
-			 <td>
-				<label class="toggle-container" onChange="updateToggleColor()">
-					<input type="checkbox" class="toggle-checkbox" checked id="toggleNADoc" onchange="displayDocumentsBasedOnSettings()">
-					<div class="toggle-track">
-						<div class="toggle-handle"></div>
-					</div>
-				</label>
-			 </td> 
-			</tr>
 	</table>
 
 
@@ -546,6 +537,45 @@
     </div>
   </div>
 
+
+  <div id="circleSettingPopupSlider" class="hidden">
+    <div class="close-btnSlider" id="closecircleSettingPopupBtn">✖</div>
+    <label for="radiusSlider">Adjust Circle Radius:</label>
+    <div class="slider-controls">
+      <button id="decreaseBtn">−</button>
+      <input type="range" id="radiusSlider" min="0" max="6000" value="3000" step="100">
+      <button id="increaseBtn">+</button>
+    </div>
+    <div id="sliderValue">Radius: 3000</div>
+
+    <button id="toggleStyleBtn">▾ Border Style</button>
+    <div id="styleControls" style="display: none">
+      <label>
+        Border Width:
+        <input type="number" id="borderWidth" value="4" min="1" max="20">
+      </label>
+
+	  <br>
+      <label>
+        Border Style:
+        <select id="borderStyle">
+          <option value="dotted">Dotted</option>
+          <option value="solid">Solid</option>
+          <option value="dashed">Dashed</option>
+          <option value="double">Double</option>
+        </select>
+      </label>
+
+	  <br>
+      <label>
+        Border Color:
+        <input type="color" id="borderColor" value="#0000ff">
+      </label>
+    </div>
+  </div>
+
+
+
 <!-- Menu for Selected places-->
 <div id="selectedDocumentsMarker">
 </div>
@@ -565,6 +595,7 @@
     <button onclick="showBasedOnInput()">Submit</button>
     <button onclick="closeSelectionPopup()">Cancel</button>
 </div>
+
 
 
 <script>
