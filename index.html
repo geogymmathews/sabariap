@@ -5,8 +5,8 @@
 <script src="sample/pow.js"></script>
 <script src="data.js"></script>
 <script src="data2.js"></script>
-
 <script src="MapScript.js"></script>
+
 <link rel="stylesheet" href="MapStyle.css">
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,13 +19,18 @@
 </head>
 
 
-<body  oncontextmenu="openMainMenu(event)" ondblclick="handleDoubleClick(event)" onclick="hideContextMenu()" >
+<body oncontextmenu="openMainMenu(event)" ondblclick="handleDoubleClick(event)" onclick="hideContextMenu()" >
 
 
 
 <div style="left:5200px; top:600px;" class="overlay-Header"><nobr>Survey Numbers in 5k Radius </nobr></div>
 
-<button onclick="openMainMenu(null)" class="floating-button" id="idContextMenuButton"><i class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i></button>
+<button onclick="openMainMenu(null)" class="floating-button" id="idContextMenuButton">
+<!-- <i id="menuIcon" class='fas fa-chevron-circle-down' style='font-size:24px;color:blue'></i> -->
+<i id="menuIcon" class='fas fa-window-close' style='font-size:24px;color:red'></i> <!-- Change icon after loading using changeIcon function -->
+
+</button>
+
 
 <div id="Bhuvan_FullImage" class="hidden">
 <img id="mapImage"  src="Images/Bhuvan_Map.png" width="12000" height="12000" border="3" class="image" class="hidden">
@@ -133,6 +138,14 @@
 	<td class="highLight"><div onclick="openTraversePopup()" class="context-menu-item" align="left"><nobr>Traverse Through Documents</nobr></div></td> 
 </tr>
 
+<tr> 
+	<td class="highLight"><div onclick="gotoCoordinates()" class="context-menu-item" align="left"><nobr>Goto Coordinates</nobr></div></td>
+</tr> 
+
+<tr> 
+	<td class="highLight"><div onclick="openHelpDocument()" class="context-menu-item" align="left"><nobr>Open Help Document</nobr></div></td> 
+</tr>
+
 </table></div>
 
 
@@ -146,8 +159,12 @@
 	<td class="highLight"><div onclick="openGoogleMap(event)" class="context-menu-item" align="left"><nobr>Open Google Map</nobr></div></td> 
 </tr>
 <tr> 
-	<td class="highLight"><div onclick="gotoCoordinates()" class="context-menu-item" align="left"><nobr>Goto Coordinates</nobr></div></td>
-</tr> 
+	<td class="highLight"><div onclick="findNearestRoad()" class="context-menu-item" align="left"><nobr>Find Nearest Road</nobr></div></td> 
+</tr>
+<tr> 
+	<td class="highLight"><div onclick="openHelpDocument()" class="context-menu-item" align="left"><nobr>Open Help Document</nobr></div></td> 
+</tr>
+
 </table></div>
 <!-- 5K Icon -->
 
@@ -183,7 +200,7 @@
 <div class="settingPopup" id="idSettings">
 <table border="1" class="menuTable">
 
-<tr>
+<tr style="display: none">
  <th>Show Document Details on Hover</th>
  <td>
 	<label class="toggle-container">
@@ -254,7 +271,7 @@
 
 
 
-			<tr>
+			<tr style="display: none">
 			 <th>Selected New Documents</th>
 			 <td>
 				<label class="toggle-container" onChange="updateToggleColor()">
@@ -283,10 +300,10 @@
 				</label>
 			 </td> 
 
-			 <th>Unclassified</th>
+			<th>Not Required</th>
 			 <td>
 				<label class="toggle-container" onChange="updateToggleColor()">
-					<input type="checkbox" class="toggle-checkbox" id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
+					<input type="checkbox" class="toggle-checkbox" checked id="toggleNRDoc" onchange="displayDocumentsBasedOnSettings()">
 					<div class="toggle-track">
 						<div class="toggle-handle"></div>
 					</div>
@@ -294,11 +311,11 @@
 			 </td> 
 			</tr>
 
-			<tr> 
-			<th>Not Required</th>
+			<tr style="display: none"> 
+			 <th>Unclassified</th>
 			 <td>
 				<label class="toggle-container" onChange="updateToggleColor()">
-					<input type="checkbox" class="toggle-checkbox" checked id="toggleNRDoc" onchange="displayDocumentsBasedOnSettings()">
+					<input type="checkbox" class="toggle-checkbox" id="toggleYetToDoc"  onchange="displayDocumentsBasedOnSettings()">
 					<div class="toggle-track">
 						<div class="toggle-handle"></div>
 					</div>
@@ -443,6 +460,24 @@
  </td> 
 </tr>
 
+<tr>
+ <td colspan=2>
+	<table border=1>
+		 <th>Show Roads</th>
+		 <td>
+			
+			<label class="toggle-container">
+				<input type="checkbox" class="toggle-checkbox" id="toggleShowRoads" onchange="displayRoadsBasedonSetting()" >
+				<div class="toggle-track">
+					<div class="toggle-handle"></div>
+				</div>
+			</label>
+		 </td>
+
+	</table>
+ </td> 
+</tr>
+
 
 <tr>
  <th>Automatic Traversal</th>
@@ -481,13 +516,6 @@
 
 
     <!-- Progress dialog -->
-    <div class="progress-dialog" id="progressDialog">
-        <div class="progress-dialog-content">
-            <div class="spinner"></div>
-            <p>Please wait, task is in progress...</p>
-        </div>
-    </div>
-
 
 <!-- Menu for Important Places -->
 <div class="context-menu" id="idContextMenuPlaces">
@@ -576,6 +604,86 @@
 
 
 
+<!-- Popup for Help page popup-->
+<div id="helpPagePopup" class="hidden">
+ <button class="close-btn" onclick="closeHelp()">×</button>
+  <h3>Help Page</h3>
+  <div id="tableContainer">
+    <table id="shortcutTable">
+      <thead>
+        <tr>
+          <th>Shortcut/Event</th>
+          <th>Action Description</th>
+        </tr>
+      </thead>
+      <tbody id="shortcutTableBody">
+        <tr><td>Function Key F1</td><td>Open this help page.</td></tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); openSettings(event);">Shift + S</a></td>
+        <td>
+            <ol>
+                <li>Display document markers based on the status categorization such as:</b>
+                    <ul>
+                        <li>Selected.</li>
+                        <li>Selected with low area</li>
+                        <li>Properties in Prime area</li>
+                        <li>Selected but older than three years</li>
+                        <li>Rejected</li>
+                        <li>Documents not required etc.</li>
+                    </ul>
+                    <p>If the option is selected, the documents will be hidden. To show the documents, turn off the selection.</p>
+                </li>
+                <li>Display documents based on price range</b></li>
+                <li>Automatically display document details</b> while traversing through the document on click of SHIFT+P or SHIFT+F. If this option is not selected, then a tooltip will be displayed with the document number.</li>
+                <li>Show important roads</b> (performance issue may occur!!!)</li>
+                <li>Number of seconds to wait before going to the next document when automatic traversal is enabled.</li>
+            </ol>
+        </td>
+        </tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); openTraversePopup()">Shift + F</a></td>
+		<td>Open document finder popup to traverse though each document based on the settings.</td></tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); StartPauseTraversal();">Shift + P</a></td>
+		<td>This option support traversing through the document automatically one after the other based on the settings, The option works even if the document finder popup is not displayed.</td></tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); showClickMenu(event);">Double Click Menu</a></td>
+        <td>
+            <ol>
+                <li>Display the geo-location coordinates of the current point.</li>
+                <li>Open the current point in Google Maps.</li>
+                <li>Mark the nearest major road from the current point.</li>
+            </ol>
+            <b>Current Point:</b> Point at which the double click triggered.
+        </td>
+        </tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); openMainMenu(event);">Context Menu</a></td>
+        <td>
+            <ol>
+                <li>Show menu for important places.</li>
+                <li>Display settings.</li>
+                <li>Change background image from Bhuvan to Google to Mixed to Bhuvan.</li>
+                <li>Draw circle from centre based on distance.</li>
+                <li>Table with document list.</li>
+                <li>Display documents based on input screen.</li>
+                <li>Open document finder popup to traverse through each document based on the settings.</li>
+                <li>Go to a point based on geo co-ordinate </li>
+            </ol>
+        </td>
+        </tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); writeDocNoToConsole();">Shift + A</a></td>
+		<td>Write the number of the currently selected document</td></tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); applyRandomColorsToLegendIcons();">Shift + C</a></td>
+		<td>Change legend's color randomly</td></tr>
+        <tr><td><a href="javascript:void(0);" onclick="closeHelp(); toggleDisplayRoads();">Shift + R</a></td>
+		<td>Toggle display of major roads identified</td></tr>
+      </tbody>
+    </table>
+
+<div style="height: 50px; display: flex; justify-content: center; align-items: center;">
+  <button onclick="closeHelp()">Close</button>
+</div>
+  </div>
+</div>
+<!-- END of Popup for Help page popup-->
+
+
 <!-- Menu for Selected places-->
 <div id="selectedDocumentsMarker">
 </div>
@@ -584,6 +692,9 @@
 <div id="doubleClickMarker" style="display: none">
 </div>
 
+<!-- Double Click Marker-->
+<div id="roadPixels" style="display: inline">
+</div>
 <!-- Selection Overlay -->
 <div class="selectionOverlay" id="selectionOverlay"></div>
 

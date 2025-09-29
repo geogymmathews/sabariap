@@ -190,8 +190,8 @@
 .iconSelected {
   position: absolute;
   display: inline-block;
-  color: black; 
-  font-size: 14px; 
+  color: brown; 
+  font-size: 20px; 
   font-weight: bold;
   text-align: center;
   box-shadow: 0 0 0 4px orange, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
@@ -204,14 +204,98 @@
   line-height: 40px; 
   border-radius: 50%; 
 
-  background-color: rgba(50, 205, 50);
+  background-color: rgba(50, 205, 50,0.2);
 }
+    .iconYetTo {
+      position: absolute;
+      display: inline-block;
+	  color: brown; 
+	  font-size: 20px; 
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 2px rgb(109, 133, 219), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* Oval */
+	  line-height: 40px; /* Center text vertically */
+      width: 50px;
+      height: 40px;
+      border-radius: 50%;
+
+	  background-color: rgba(255, 223, 0,0.2);
+	}
+
+
+    .iconPrime {
+      position: absolute;
+      display: inline-block;
+	  color: brown; 
+	  font-size: 20px; 
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 4px blue, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; /* Indicate it's clickable */
+      border: 1px dotted brown;
+
+	  /* round Square */
+	  line-height: 45px;  /*Center text vertically */
+      width: 45px;
+      height: 45px;
+      border-radius: 10px;
+
+	  background-color: rgba(255,165,0,0.4);
+	}
+
+
+    .iconSelectedLow {
+      position: absolute;
+      display: inline-block;
+	  color: brown; 
+	  font-size: 20px; 
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 3px yellow, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; 
+      border: 1px dotted brown;
+
+	  /* round Box */
+	  line-height: 50px;  /*Center text vertically */
+      width: 50px;
+      height: 40px;
+      border-radius: 10px;
+
+	  background-color: rgba(80, 223, 155,0.2);
+    }
+
+
+    .iconSelectedPast {
+      position: absolute;
+      display: inline-block;
+	  color: brown; 
+	  font-size: 20px; 
+	  font-weight: bold;
+	  text-align: center;
+	  box-shadow: 0 0 0 3px rgb(197, 100, 255), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
+      cursor: pointer; 
+      border: 1px dotted brown;
+
+	  /* Square */
+	  line-height: 40px;  /*Center text vertically */
+      width: 40px;
+      height: 40px;
+
+	  background-color: rgba(127, 255, 0,,0.2);
+    }
+
+
+
 
 .iconSelectedNew {
   position: absolute;
   display: inline-block;
-  color: black; 
-  font-size: 14px; 
+  color: brown; 
+  font-size: 10px; 
   font-weight: bold;
   text-align: center;
   box-shadow: 0 0 0 4px black, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
@@ -224,49 +308,8 @@
   height: 30px;
   border-radius: 10px; 
 
-  background-color: rgba(50, 205, 50);
+  background-color: rgba(50, 205, 50,,0.2);
 }
-
-
-
-    .iconSelectedLow {
-      position: absolute;
-      display: inline-block;
-	  color: black; 
-	  font-size: 14px; 
-	  font-weight: bold;
-	  text-align: center;
-	  box-shadow: 0 0 0 3px yellow, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
-      cursor: pointer; 
-      border: 1px dotted brown;
-
-	  /* round Box */
-	  line-height: 30px;  /*Center text vertically */
-      width: 40px;
-      height: 30px;
-      border-radius: 10px;
-
-	  background-color: rgba(80, 223, 155,0.5);
-    }
-
-    .iconSelectedPast {
-      position: absolute;
-      display: inline-block;
-	  color: black; 
-	  font-size: 14px; 
-	  font-weight: bold;
-	  text-align: center;
-	  box-shadow: 0 0 0 3px rgb(197, 100, 255), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
-      cursor: pointer; 
-      border: 1px dotted brown;
-
-	  /* Square */
-	  line-height: 30px;  /*Center text vertically */
-      width: 30px;
-      height: 30px;
-
-	  background-color: rgba(127, 255, 0);
-    }
 
     .iconRejected {
       position: absolute;
@@ -289,48 +332,10 @@
 	}
 
 
-    .iconYetTo {
-      position: absolute;
-      display: inline-block;
-	  color: black; /* White text */
-	  font-size: 14px; /* Text size */
-	  font-weight: bold;
-	  text-align: center;
-	  box-shadow: 0 0 0 2px rgb(109, 133, 219), 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
-      cursor: pointer; /* Indicate it's clickable */
-      border: 1px dotted brown;
-
-	  /* Oval */
-	  line-height: 30px; /* Center text vertically */
-      width: 50px;
-      height: 30px;
-      border-radius: 50%;
-
-	  background-color: rgba(255, 223, 0);
-	}
 
 
 
 
-    .iconPrime {
-      position: absolute;
-      display: inline-block;
-	  color: black; /* White text */
-	  font-size: 14px; /* Text size */
-	  font-weight: bold;
-	  text-align: center;
-	  box-shadow: 0 0 0 4px blue, 0 4px 6px rgba(0, 0, 0, 0.9); /* Extra border + shadow */
-      cursor: pointer; /* Indicate it's clickable */
-      border: 1px dotted brown;
-
-	  /* round Square */
-	  line-height: 35px;  /*Center text vertically */
-      width: 35px;
-      height: 35px;
-      border-radius: 10px;
-
-	  background-color: rgba(255,165,0);
-	}
 
     .iconNotRequired {
       position: absolute;
@@ -354,19 +359,19 @@
     .iconDocMarker {
       position: absolute;
       display: inline-block;
-	  color: brown; /* White text */
-	  font-size: 14px; /* Text size */
-	  font-weight: normal;
+	  color: red; /* White text */
+	  font-size: 20px; /* Text size */
+	  font-weight: bold;
 	  text-align: center;
+	  text-decoration: underline;
 
 	  /* round Box */
 	  line-height: 30px;  /*Center text vertically */
-      width: 60px;
+      width: 100px;
       height: 30px;
       border-radius: 10px;
 
 	}
-
 
     .settingPopup {
       display: none; /* Initially hidden */
@@ -613,41 +618,6 @@
     .visible2 {
       display: grid;
     }
-        .progress-dialog {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .progress-dialog.active {
-            display: flex; /* Show the modal when active */
-        }
-
-        .progress-dialog-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Spinner animation */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #007BFF;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
 
         @keyframes spin {
             from {
@@ -902,4 +872,124 @@
       background: none; border: none;
       cursor: pointer; font-size: 14px;
       color: #007bff; margin-top: 10px;
+    }
+
+  .dotRoad {
+    position: absolute;
+    width: 1px;        /* size of the dot */
+    height: 1px;
+  }
+
+.roadDistanceLine {
+  position: absolute;
+  height: 10px;
+  background: linear-gradient(to bottom, #ffb347, #ff6600);
+  transform-origin: 0 0;
+  border-radius: 4px;
+  border: 3px dotted brown;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+  .roadLabel {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+    font-size: 12px;
+    transform: translate(-50%, -50%);
+  }
+  #roadMap {
+    position: relative;
+    width: 12000px;
+    height: 12000px;
+  }
+
+
+
+
+  
+/* Help popup */
+
+    #helpPagePopup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50vw;
+      max-height: 80vh;
+      background: #e6f4ff;
+      border: 2px solid #3399ff;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      z-index: 9999;
+      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+	  /* Add this for the close button */
+  #helpPagePopup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #004080;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+    #helpPagePopup h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #004080;
+    }
+    #tableContainer {
+      max-height: calc(80vh - 100px);
+      overflow-y: auto;
+    }
+    #shortcutTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    #shortcutTable th, #shortcutTable td {
+      border: 1px solid #3399ff;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #shortcutTable th {
+      background-color: #cce6ff;
+      color: #003366;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    #shortcutTable td b {
+      color: #000;
+    }
+    #helpPagePopup button {
+      display: block;
+      margin: 14px auto 0;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #3399ff;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #helpPagePopup button:hover {
+      background: #0073e6;
+    }
+    /* Styles for nested lists */
+    #shortcutTable ol, #shortcutTable ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+    #shortcutTable p {
+        margin: 5px 0 0 0;
     }

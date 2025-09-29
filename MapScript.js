@@ -27,6 +27,9 @@
 	var mypw="abcd";
 	let visibleDocs = 0;
 
+	var roadPixels = [];
+	var locationArray = [];
+
 	
 	function initialize()
 	{
@@ -49,6 +52,8 @@
 											StartPauseTraversal();
 										else if (event.shiftKey && event.key.toLowerCase() === 'a') 
 										  writeDocNoToConsole();
+										else if (event.shiftKey && event.key.toLowerCase() === 'r') 
+										  toggleDisplayRoads() ;
 
 									}
 								);
@@ -56,12 +61,12 @@
 	 createLegendsTable();
 	 registerColorChangeKey();
 	 updateBackgroundDisplay();
-	 getPoligonDataAndDraw();
 	 initializeSurveyDivMarks();
 	 addDigSurveyMarkers();
 	 CreateMarkerPoints();
  	initilizeCircleSettingPopup();
-
+	registerHelp();
+	initializeVillageRoadData();
 
 	}
 	function initializeTraverseIcon()
@@ -185,11 +190,16 @@
 			console.error('An error occurred while reading Location :', error.message);
 		}
 
+
 		try
 		{
 			var decryptedObj = decrypt(objectArrayString);
 			objectArray = JSON.parse(decryptedObj);	
 		    objectArray.forEach(r => r.markerNoDisplay = r.markerNo);
+
+
+		 //   objectArray.forEach(r => console.log(r.roadShortestDistance ));
+
 			//objectArray = updateMarkerNumbersVisibleOnly(objectArray);
 			//objectArray = objectArray.slice(0, 1);
 			//console.log(objectArray);
@@ -271,8 +281,6 @@ function toggleBackgroundImage()
 {
 	const contextMainMenu = document.getElementById(ctxMainMenuID);
     contextMainMenu.style.display = 'none';
-    const progressDialog = document.getElementById('progressDialog');
-    progressDialog.classList.add('active');
 	if (imageDisplayOption == "Bhuvan")
 	 imageDisplayOption = "Google";
 	else if (imageDisplayOption == "Google")
@@ -281,7 +289,7 @@ function toggleBackgroundImage()
 	 imageDisplayOption = "Bhuvan";
 
     updateBackgroundDisplay();
-	progressDialog.classList.remove('active');
+
 }
 
 
@@ -349,6 +357,7 @@ function toggleBackgroundImage()
 		clickMenu.style.top = `${event.pageY}px`;
 		clickMenu.style.position = 'absolute';
 		clickMenu.style.display = 'block';
+		console.log(clickMenu);
 
 	}
 
@@ -444,6 +453,8 @@ function toggleBackgroundImage()
 			  if(document.getElementById('toggleSurveyNoLables').checked)
 			   addSurveyMarkerDiv(`NN_${userInput}`, intX, intY ) 
 			  }
+
+
    
 		}
 		const clickMenu = document.getElementById(clickMenuID);
@@ -677,23 +688,26 @@ function toggleBackgroundImage()
 														"<th>Reg Amount</th><td>"+formatNumber(selectedDoc.RegAmount)+"</td></tr>"+
 														"<tr><th>Amount Per Cent</th><td>"+formatNumber(selectedDoc.AmountPerCent)+"</td>"+
 														"<th>Distance</th><td>"+formatNumber(selectedDoc.Distance)+"</td></tr>"+
+
 														"<tr><th>Survey No</th><td>"+selectedDoc.SurveyNo+"</td>"+
 														"<th>Village</th><td>"+selectedDoc.Village+"</td></tr>"+
+		
 														"<tr><th>Document Link</th><td>"+"<i onclick=\"openHTML('"+selectedDoc.FileURL+"')\" class='fa fa-table' style='font-size:24px;color:red'></i>"+"</td>"+
 		  												pdfURLString +
 		  												DigitalSurveyString +
 														"<tr>"+
 															"<th>Google Map(Survey)</th>"+
 															"<td>"+  "<a target='_new' href='https://www.google.com/maps/search/?api=1&query="+selectedDoc.GeoLocation+"'><span style='font-size:24px;'>&#127757;</span></a>"+"</td>" +
-															
 														DigitalSurveyMapString +
 													    "</tr>"+
-														
-														"<tr><th>Status</th><td>"+selectedDoc.Status+"</td><th></th><td></td></tr>"+
-														"<tr><td colspan=4>"+selectedDoc.Remark+"</td></tr>"+
+														"<tr><th>Road Shorted Distance</th>"+
+														"<td><a href=\"javascript:addLine({" + "x:"+ selectedDoc.xPixel +", y:"+ selectedDoc.yPixel + "})\" style=\"color:blue; font-weight:bold;\">" + selectedDoc.roadShortestDistance + "</a></td>"+
+														"<th></th><td></td></tr>"+
+
 														"</table>";
 	 //alert(document.getElementById('contentArea').innerHTML);
       document.getElementById('docDetailsPopup').style.display = 'block';
+	  addLine({x:selectedDoc.xPixel, y:selectedDoc.yPixel});
 	  selectedDocKey = selectedDoc.DocKey;
 
     }
@@ -765,6 +779,9 @@ function toggleBackgroundImage()
 			return;
 		}
 		  document.getElementById('docDetailsPopup').style.display = 'none';
+		  hideLine();
+		  prevLabel = null;
+		  prevLine = null;
     }
   function formatNumber(num) 
   {
@@ -814,6 +831,16 @@ function calculateXPixel(longitude)
     const constant3 = 1.05996668422254;
     const xPixel = ((constant1 - longitude) * (constant3 * 111000 * Math.cos(constant2))) - 13-8;
     return xPixel;
+}
+
+function findNearestRoad()
+{
+	const x = window.scrollX+event.clientX;
+	const y = window.scrollY+event.clientY;
+	let intX = ~~x;
+	let intY = ~~y;
+	addLine({x:intX, y:intY});
+
 }
 
 function openGoogleMap(event)
@@ -1659,6 +1686,8 @@ function showNoMoreDocsError()
       }, 2000); // Hide after 2 seconds
 }
 
+
+
     function getPoligonDataAndDraw() {
       villageCoordinates.features.forEach((feature, index) => {
         let panchayathName = feature.properties?.name || `Unnamed-${index}`;
@@ -1882,9 +1911,9 @@ function handleDoubleClick(event) {
 
     // Proceed if no ignored element was found in the hierarchy
     if (event.shiftKey) 
-        showClickMenu(event);
-     else
         showPrompt();
+     else
+        showClickMenu(event);
     
 }
 
@@ -2049,3 +2078,308 @@ function addDigSurveyMarkers()
 //addLocationMarkers("9.474575,76.794653","9.43598221973718,76.8115015011844","C_69_7");
 
 }
+
+
+
+
+
+  function drawLine(p1, p2, distance) {
+    const roadMap = document.getElementById("roadMap");
+    const length = Math.sqrt((p2.x-p1.x)**2 + (p2.y-p1.y)**2);
+    const angle = Math.atan2(p2.y-p1.y, p2.x-p1.x) * 180 / Math.PI;
+
+    const line = document.createElement("div");
+    line.className = "roadDistanceLine";
+    line.style.width = length + "px";
+    line.style.left = p1.x + "px";
+    line.style.top = p1.y + "px";
+    line.style.transform = `rotate(${angle}deg)`;
+    roadMap.appendChild(line);
+
+    // Label at midpoint
+    const midX = (p1.x + p2.x) / 2;
+    const midY = (p1.y + p2.y) / 2;
+
+    const label = document.createElement("div");
+    label.className = "roadLabel";
+    label.style.left = midX + "px";
+    label.style.top = midY + "px";
+    label.innerText = distance.toFixed(2);
+    roadMap.appendChild(label);
+  }
+
+function drawRoads() 
+{
+     roadPixels.forEach((pixels, index) => {
+		 //if (index % 1000 === 0) 
+		 //		console.log(index);
+
+		 drawDot(pixels.Type, {x: pixels.x, y: pixels.y});
+         });
+	displayRoadsBasedonSetting();
+
+}
+
+    function changeIcon(state) 
+	{
+      const icon = document.getElementById("menuIcon");
+      if (state === 1) 
+	  {
+        icon.className = "fas fa-chevron-circle-down"; // chevron icon
+        icon.style.color = "blue";                     // blue color
+      } 
+	  else if (state === 2) 
+	  {
+        icon.className = "fas fa-window-close";       // close icon
+        icon.style.color = "red";                     // red color
+      }
+    }
+
+
+	function initializeRoadDetails() 
+	{
+		drawRoads();
+		console.log("Find road shortest Distance");
+		changeIcon(2);
+		calculateShortDistancetoRoads();
+		console.log("Road/Village data point loaded...");
+		changeIcon(1);
+		alert("Page loaded successfully...");
+	}
+
+  function findNearestRoadPixel(docPixel) 
+  {
+    let minDist = Infinity;
+    let nearestRoadPixel = null;
+
+    roadPixels.forEach(p => {
+      const x = p.x;
+      const y = p.y;
+
+      const dx = x - docPixel.x;
+      const dy = y - docPixel.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+
+      if (dist < minDist) {
+        minDist = dist;
+        nearestRoadPixel = {x, y, type: p.Type};
+      }
+    });
+    return {nearestRoadPixel, minDist};
+  }
+
+	function calculateShortDistancetoRoads()
+	{
+		try
+		{
+			for (let i = 0; i < objectArray.length; i++) 
+			{
+				let r = objectArray[i];
+				let shortDistance = findNearestRoadPixel({ x: r.xPixel, y: r.yPixel });
+				r.roadShortestDistance = shortDistance.minDist.toFixed(0)+" m";
+			}
+		}
+		catch (error)
+		{
+			console.error('An error occurred while calculating shortest distance :', error.message);
+		}
+
+	}
+
+
+async function initializeVillageRoadData() 
+{
+getPoligonDataAndDraw();
+const decompressedRoadPixels = await decompress(compressedRoadPixels);
+const roadPixelsJSON = JSON.parse(decompressedRoadPixels); 
+
+roadPixels = roadPixelsJSON.map(p => ({
+  x: parseInt(p.x, 10),
+  y: parseInt(p.y, 10),
+  type: p.Type
+}));
+
+
+initializeRoadDetails();
+
+}
+
+
+function toggleDisplayRoads() 
+{
+
+    const toggle = document.getElementById('toggleShowRoads');
+    if (!toggle) return;
+
+	if(toggle.checked)
+		toggle.checked = false;
+	else
+		toggle.checked = true;
+
+	displayRoadsBasedonSetting() ;
+}
+
+
+function displayRoadsBasedonSetting() 
+{
+    const toggle = document.getElementById('toggleShowRoads');
+    if (!toggle) return;
+
+    const container = document.getElementById("roadPixels");
+    const displayOption = toggle.checked ? "inline" : "none";
+    container.style.display = displayOption;
+}
+
+ 
+
+function drawDot(roadType, pixel) 
+{
+   let color;
+    switch (roadType) 
+	{
+      case "SH":
+        color = "red";
+        break;
+      case "MR":
+        color = "blue";
+        break;
+      default:
+        color = "green";
+    }
+    const container = document.getElementById("roadPixels");
+    if (!container) 
+		return;
+
+    const dot = document.createElement("div");
+    dot.className = "dotRoad";
+    dot.style.left = pixel.x + "px";
+    dot.style.top = pixel.y + "px";
+    dot.style.backgroundColor = color;
+    container.appendChild(dot);
+}
+
+
+  let prevLabel;
+  let prevLine;
+
+  function drawLine(roadType, p1, p2, distance) 
+  {
+    let color;
+    switch (roadType) 
+	{
+      case "SH":
+        color = "red";
+        break;
+      case "MR":
+        color = "blue";
+        break;
+      default:
+        color = "green";
+    }
+	
+    const length = Math.sqrt((p2.x-p1.x)**2 + (p2.y-p1.y)**2);
+    const angle = Math.atan2(p2.y-p1.y, p2.x-p1.x) * 180 / Math.PI;
+
+    const line = document.createElement("div");
+    line.className = "roadDistanceLine";
+    line.style.width = length + "px";
+    line.style.left = p1.x + "px";
+    line.style.top = p1.y + "px";
+    line.style.backgroundColor = "magenta";
+    line.style.transform = `rotate(${angle}deg)`;
+    document.body.appendChild(line);
+	prevLine = line;
+
+    // Label at midpoint
+    const midX = (p1.x + p2.x) / 2;
+    const midY = (p1.y + p2.y) / 2;
+
+    const label = document.createElement("div");
+    label.className = "roadLabel";
+    label.style.left = midX + "px";
+    label.style.top = midY + "px";
+    label.innerText = distance.toFixed(0)+" m";
+    document.body.appendChild(label);
+	prevLabel = label;
+
+  }
+  function addLine( docPixel) 
+  {
+	  const result = findNearestRoadPixel(docPixel);
+	  const nearestRoadPixel = result.nearestRoadPixel;
+
+	  // Draw line with distance label
+	  ///drawDot("NA", nearestRoadPixel);
+	  //drawDot("NA", docPixel);
+	  if (prevLabel) 
+	  {
+		  document.body.removeChild(prevLabel);
+	  }
+
+	  if (prevLine) 
+	  {
+		  document.body.removeChild(prevLine);
+	  }
+	  drawLine("SH", docPixel, nearestRoadPixel, result.minDist);
+  }
+
+    function hideLine() 
+	{
+	  if (prevLabel) 
+	  {
+		  document.body.removeChild(prevLabel);
+	  }
+
+	  if (prevLine) 
+	  {
+		  document.body.removeChild(prevLine);
+	  }
+
+	}
+
+// Close popup
+function closeHelp() {
+  document.getElementById("helpPagePopup").style.display = "none";
+}
+
+function openHelpDocument()
+{
+	document.getElementById("helpPagePopup").style.display = "block";
+}
+
+function registerHelp() 
+{
+
+	// Show popup with F1, close with Esc
+	document.addEventListener("keydown", function(event) {
+	  if (event.key === "F1") {
+		event.preventDefault(); // prevent browser help
+		openHelpDocument();
+	  }
+	  if (event.key === "Escape") {
+		closeHelp();
+	  }
+	});
+
+}
+
+
+async function compress(str) {
+  const cs = new CompressionStream("gzip");
+  const writer = cs.writable.getWriter();
+  writer.write(new TextEncoder().encode(str));
+  writer.close();
+  const compressed = await new Response(cs.readable).arrayBuffer();
+  return btoa(String.fromCharCode(...new Uint8Array(compressed))); // Base64
+}
+
+async function decompress(base64) {
+  const compressedBytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+  const ds = new DecompressionStream("gzip");
+  const writer = ds.writable.getWriter();
+  writer.write(compressedBytes);
+  writer.close();
+  const decompressed = await new Response(ds.readable).text();
+  return decompressed;
+}
+
